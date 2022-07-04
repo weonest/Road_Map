@@ -1,8 +1,10 @@
 # HTML
 
-------
+
 
 [사전지식](https://www.notion.so/ab8ead10ef7d48f3b3b39fc65e72e84d)
+
+
 
 ## 기술소개
 
@@ -16,6 +18,8 @@
 
 - Language 부터 살펴보면, ‘언어’의 핵심은 ‘**약속**’에 있다.
 
+  
+
 ## 기본문법 (태그)
 
 - 메모장 > 내용 입력 후 다른 이름으로 파일 저장 > a.html (파일 형식 : 모든파일, UTF - 8) 저장
@@ -26,7 +30,7 @@
 
 - HTML은 프로그래밍 언어기 때문에 메모장에서 “엔터”로 줄바꿈을 해도 적용되지 않음. 이를 위해서는
 
-  <h1> ~ </h1>태그를 사용할 필요가 있음. (숫자는 Heading 의 크기)
+  <h1> ~ </h1>태그를 사용할 필요가 있음. (숫자는 Heading 의 크기) 
 
 ## 하피어텍스트와 속성
 
@@ -40,6 +44,8 @@ GML > SGML > SGMLguid > HTML 순으로 언어가 발전함.
 - 맥에서 텍스트 에디터 사용시 주의 사항
 
   ‘스마트 인용 체크’를 해제해야 “” 따옴표가 바뀌지 않음
+
+  
 
 ## 리스트와 태그의 중첩
 
@@ -74,3 +80,22 @@ GML > SGML > SGMLguid > HTML 순으로 언어가 발전함.
 - <!DOCTYPE html>
 
   **Doc**ument **type** declaration  = 문서 타입 선언
+
+  
+
+## 웹사이트 만들기
+
+- 파일 항목들을 세분화 하기 전에 링크를 먼저 만들어두고 파일을 만드는 것이 좋다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d466c88-8c01-4244-be49-6e74b7e9cf17/Untitled.png)
+
+> 링크 url 태그를 먼저 생성 후 같은 파일명을 가진 html을 생성하여 작업하면 더욱 편하다.
+
+- 이번 작업을 통해 어떤 태그가 존재하고 무엇을 모르는지 파악이 가능하게 되었으므로, 검색하는 법을 터득하여 활용할 수 있다.
+
+  
+
+## HTML의 변천사와 통계
+
+- html 통계 https://www.advancedwebranking.com/seo/html-study/
+- html 연대기 http://www.martinrinehart.com/frontend-engineering/engineers/html/html-tag-history.html
