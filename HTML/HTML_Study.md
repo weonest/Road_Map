@@ -397,3 +397,79 @@ The language is written in the form of HTML elements consisting of tags enclosed
 
 - 파일을 업로드 하려는 기능이 하나라도 있다면 form 태그 중 **enctype 속성을 "multipart/form-data"으로 해야 한다고 외워두자.**
 - 파일 UI를 만드는 것은 **input 태그** 라는 것을 기억해 두자.
+
+## Meta
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="생활코딩의 소개">
+    <meta name="keywords" content="코딩, coding, 생활코딩">
+    <meta name="author" content="me">
+    <meta http-equiv="refresh" content="30">
+  </head>
+  <body>
+    생활코딩은 일반인에게 프로그래밍을 알려주는 온/오프라인 강의입니다.
+  </body>
+</html>
+```
+
+- <meta name="description" content="생활코딩의 소개> : 요약으로 사용될 수 있음.
+- <meta name="keywords" content="코딩, coding, 생활코딩"> : 키워드로 사용될 수 있음.
+- <meta name="author" content="me"> : 저자표시로 사용될 수 있음.
+- <meta http-equiv="refresh" content="30"> 페이지를 30초마다 새로고침.
+
+## 의미론적 태그 - Semantic
+
+- 문서의 정보를 보다 잘 표현하기 위해서는 의미에 맞는 태그를 잘 사용해야 합니다. 특히 HTML5에서는 웹페이지에서 통상 많이 사용하는 구조에 의미를 분명히 부여하기 위해서 의미론적 태그(semantic element)를 새롭게 정의해서 제공하고 있습니다. 그 목록은 아래와 같습니다.
+
+| article | 본문                                                        |
+| ------- | ----------------------------------------------------------- |
+| aside   | 광고와 같이 페이지의 내용과는 관계가 적은 내용들            |
+| details | 기본적으로 표시되지 화면에 표시되지 않는 정보들을 정의      |
+| figure  | 삽화나 다이어그램과 같은 부가적인 요소를 정의               |
+| footer  | 화면의 하단에 위치하는 사이트나 문서의 전체적인 정보를 정의 |
+| header  | 화면의 상단에 위치하는 사이트나 문서의 전체적인 정보를 정의 |
+| main    | 문서에서 가장 중심이 되는 컨텐츠를 정의                     |
+| mark    | 참조나 하이라이트 표시를 필요로 하는 문자를 정의            |
+| nav     | 문서의 네비게이션 항목을 정의                               |
+| section | 문서의 구획들을 정의 (참고)                                 |
+| time    | 시간을 정의                                                 |
+
+```html
+<html>
+<head>
+ <title> 나의 흐트믈 공부 </title>
+ <meta charset="utf-8">
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">Html</a></h1>
+  </header>
+<section>
+  <nav>
+    <ol>
+      <li><a href="1.html">기술소개</a></li>
+      <li><a href="2.html">기본문법</a></li>
+      <li><a href="3.html">하이퍼텍스트와 속성</a></li>
+      <li><a href="4.html">리스트와 태그의 중첩</a></li>
+    </ol>
+  </nav>
+  <article>
+    <h2>응</h2>
+    응
+  </article>
+</section>
+<footer>
+  <ul>
+    <li><a href="privacy.html">개인보호정책</a></li>
+    <li><a href="about.html">회사소개</a></li>
+  </ul>
+</footer>
+</body>
+</html>
+```
+
+- 역할이 분명한 태그들은 그대로 사용하고, 역할 구분이 모호하면 section 태그로 구분해준다.
