@@ -334,3 +334,255 @@ ex) **font:bold 5rem/2 arial, verdana, "Helvetica Neue", serif;**
 - color는 상속이 되지만, border는 상속되지 않음.
   - 상속이 유리한 경우에는 상속, 불리한 경우에는 상속x 로직.
     - 상속 여부에 관한 것은 검색해서 찾아 보는 게 편함
+
+## Cascading Style Sheet
+
+- 기본 우선순위 : 웹브라우저 < 사용자< 저자 (중첩의 우선순위)
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      li{color:red; !important}
+      #idsel{color:blue;}
+      #idsel{color:yellow;}
+      .classsel{color:green;}
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li>html</li>
+      <li id="idsel" class="classsel" style="color:powderblue" >css</li>
+      <li>javascript</li>
+    </ul>
+    <ol>
+      <ul>
+        <li>style attribute</li>
+        <li>id selector</li>
+        <li>class selector</li>
+        <li>tag selector</li>
+      </ul>
+    </ol>
+  </body>
+</html>
+```
+
+- style, id, class, tag 순으로 우선순위를 가진다. 더욱 명시적인 성질을 우선순위로 두어야 생산성이 높아지기 때문이다.
+  - **! important** 속성을 추가하면 가장 높은 우선순위를 가질 수 있다. 가장 쉬운 방법이지만, 가장 좋은 방법이라고 할 수는 없으므로 우선순위를 잘 파악하고 사용할 수 있도록 하자.
+- CSS 부분에서 `#idsel` 이 2번 나오는 경우에는 마지막 태그를 따라간다?
+
+## inline
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      h1, a{border:1px solid red;}
+			h1 { display : inline;}
+    </style>
+  </head>
+  <body>
+    <h1>Hello world</h1>
+    안녕하세요. <a href="<https://localhost.php>">원건희</a>입니다.
+  </body>
+</html>
+```
+
+- h1 태그와 같이 화면 전체를 사용하는 태그를 block level element
+- a 태그와 같이 화면의 일부를 차지하는 태그를 inline lever element
+- display : inline or block 태그 속성을 통해 변경하는 것도 가능하다.
+
+## Box model (박스모델) *중요
+
+- **box model :** 웹 페이지에 표현될 때 태그의 부피감, 여백, 위치, 크기 등을 결정하는 것.
+
+```html
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      p, a{/*border-width:10px;
+          border-style: solid;
+          border-color:red;*/
+          border:10px dotted red;
+          padding:60px;
+          margin:40px;
+        }
+    </style>
+  </head>
+  <body>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+    안녕하세요.<a href="<http://localhost.php>">생활코</a>입니다.
+  </body>
+</html>
+```
+
+- padding : 테두리와 테두리 안 내용의 간격 설정 (안주와 접시 테두리 사이의 간격 ㅋㅋ)
+- margin : 테두리와 그 밖의 것에 대한 간격 설정 (접시와 접시 사이의 간격 ㅋㅋ)
+- inline 요소는 기본적으로 width와 height 값이 무시되고, padding과 margin이 적용되어 있다.
+
+## box-sizing
+
+box-sizing은 박스의 크기를 화면에 표시하는 방식을 변경하는 속성이다. width와 height는 엘리먼트의 컨텐츠의 크기를 지정한다. 따라서 테두리가 있는 경우에는 테두리의 두께로 인해서 원하는 크기를 찾기가 어렵다. box-sizing 속성을 border-box로 지정하면 테두리를 포함한 크기를 지정할 수 있기 때문에 예측하기가 더 쉽다. 최근엔 모든 엘리먼트에 이 값을 지정하는 경우가 늘고 있다.
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      *{  // *은 모든 값에 적용한다는 뜻
+        box-sizing:border-box;
+      }
+      div{
+        margin:10px;
+        width:150px;
+      }
+      #small{
+        border:10px solid black;
+      }
+      #large{
+        border:30px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="small">Hello</div>
+    <div id="large">Hello</div>
+  </body>
+</html>
+```
+
+- CSS초기에는 컨텐츠의 크기값을 기준으로 했기 때문에 같은 width 값을 주더라도 테두리의 크기가 달라질 수 있다.
+- box-sizing:border-box를 지정하면 예상하기 쉬운 결과를 도출해낼 수 있다.
+
+## 마진겹침 현상
+
+마진겹침(margin-collapsing) 현상은 상하 마진값이 어떤 상황에서 사라지는 현상을 의미한다.
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      h1{
+        border:1px solid red;
+        margin:100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello world</h1>
+    <h1>Hello world</h1>
+  </body>
+</html>
+```
+
+- 두 Hello world 사이의 간격에 대한 마진
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      #parent{
+        /* border:1px solid tomato; */
+        margin-top:100px;
+      }
+      #child{
+        background-color: powderblue;
+        margin-top:50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="parent">
+      <div id="child">Hello world</div>
+    </div>
+  </body>
+</html>
+```
+
+- 부모 element가 시각적인 요소가 없는 투명한 상태일 때, 부모의 margin값과 자식의 margin값에서 **큰 쪽의 margin 값이 자식 element의 위치 값**을 사용된다.
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      #empty{
+        margin-top:50px;
+        margin-bottom:100px;
+        /* border:1px solid tomato; */
+      }
+      #normal{
+        background-color: powderblue;
+        margin-top:100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="empty"></div>
+    <div id="normal">normal</div>
+  </body>
+</html>
+```
+
+- 시각적인 요소가 없다면 top과 bottom 중 더 큰 값을 margin 기준값으로 갖는다.
+
+## Position
+
+엘리먼트의 위치를 지정하는 4가지 방법이 있다.
+
+- static
+- relative
+- absolute
+- fixe
+
+### static VS realtive
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      html{
+        border:1px solid gray;
+      }
+      div{
+        border:5px solid tomato;
+        margin:10px;
+      }
+      #me{
+        position: relative;
+        left:100px;
+        bottom:100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="other">other</div>
+      <div id="parent">
+         parent
+         <div id="me">me</div>
+      </div>
+  </body>
+</html>
+```
+
+d
