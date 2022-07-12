@@ -569,7 +569,7 @@ box-sizing은 박스의 크기를 화면에 표시하는 방식을 변경하는 
         margin:10px;
       }
       #me{
-        position: relative;
+        position: relative; or static
         left:100px;
         bottom:100px;
       }
@@ -585,4 +585,46 @@ box-sizing은 박스의 크기를 화면에 표시하는 방식을 변경하는 
 </html>
 ```
 
-d
+- static은 기본값이다.
+- position: relative; 를 통해 상대적, 정적인 위치를 정할 수 있다.
+- postiion이 relaive일 때에 offset을 사용할 수 있다.
+
+### absolute
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      #parent, #other{
+        border:5px solid tomato;
+      }
+      #grand{
+        position:relative;
+      }
+      #me{
+        background-color: black;
+        color:white;
+        position: absolute;
+        left:0;
+        top:0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="other">other</div>
+    <div id="grand">
+      grand
+      <div id="parent">
+         parent
+         <div id="me">me</div>
+      </div>
+    </div>
+  </body>
+</html>
+```
+
+- absolute로 지정했을때 offset을 지정해주지 않으면 부모에 속했을 때 기대되는 위치를 기본값으로 하게된다.
+- 어떠한 element를 absolute로 지정하면 더 이상 부모에 속하지 않게된다. 부모 자식 관계의 link가 끊긴다.
+- 여기서 abosolute 포지션의 offset을 주지 않은 ‘me’는 **html을 기준**으로 (0, 0)위치에 오게되지만, **부모 이외의 새로운 종속관계가 등장**하면 (예시에서는 ‘grand’의 등장) **새로 등장한 존속관계를 기준**으로 (0, 0)에 위치하게 된다.
