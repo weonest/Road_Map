@@ -628,3 +628,247 @@ box-sizing은 박스의 크기를 화면에 표시하는 방식을 변경하는 
 - absolute로 지정했을때 offset을 지정해주지 않으면 부모에 속했을 때 기대되는 위치를 기본값으로 하게된다.
 - 어떠한 element를 absolute로 지정하면 더 이상 부모에 속하지 않게된다. 부모 자식 관계의 link가 끊긴다.
 - 여기서 abosolute 포지션의 offset을 주지 않은 ‘me’는 **html을 기준**으로 (0, 0)위치에 오게되지만, **부모 이외의 새로운 종속관계가 등장**하면 (예시에서는 ‘grand’의 등장) **새로 등장한 존속관계를 기준**으로 (0, 0)에 위치하게 된다.
+
+### fixed
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      #parent, #other{
+        border:5px solid tomato;
+      }
+      #large{
+        height:10000px;
+        background-color: tomato;
+      }
+      #me{
+        background-color: black;
+        color:white;
+        position: fixed;
+        left:0;
+        top:0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="other">other</div>
+      <div id="parent">
+         parent
+         <div id="me">me</div>
+         <div id="large">large</div>
+      </div>
+    </div>
+  </body>
+</html>
+```
+
+- fixed : 스크롤을 내려도 위치를 고정시켜준다. (offset을 주지 않으면 html기준), 대체로 absolute와 성격이 비슷하다.
+
+## flex
+
+CSS의 flex는 엘리먼트들의 크기나 위치를 쉽게 잡아주는 도구이다. 지금까지 레이아웃에 관련된 다양한 속성들이 있었지만, 그리 효과적이지 않았다. flex를 이용하면 레이아웃을 매우 효과적으로 표현할 수 있다.
+
+이전까지는 table로 레이아웃을 짜왔는데, 유지보수 측면이나 디자인 측면에서 상당히 비효율적이었다. 이후로 position과 float 등을 통해서도 레이아웃을 잡았었지만 flex가 등장하며..
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <style media="screen">
+    .container{
+      background-color:powderblue;
+      display:flex;
+      flex-direction:column-reverse;
+    }
+    .item{
+      background-color: tomato;
+      color:white;
+      border:1px solid white;
+    }
+  </style>
+  <body>
+     <!--div 태그는 block 엘리먼트이기에 화면 전체를 쓴다 -->
+    <div class="container">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+  </body>
+</html>
+```
+
+- flex 사용은 부모의 값에 display: flex;를 주는 게 시작이다.
+- flex-direction:row-reverse; : 태그들을 오른쪽(행)으로 역순 정렬.
+  - column-reverse; : 태그들을 아래로 역순으로(열) 정렬
+
+### grow & shrink
+
+아이템은 컨테이너의 크기에 따라서 작아지기도 하고 커지기도 한다. 작아지고 커지는 비율을 지정하는 방법이 grow & shrink다.
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <style media="screen">
+    .container{
+      background-color:powderblue;
+      display:flex;
+      height:200px;
+      flex-direction:row;
+    }
+    .item{
+      background-color: tomato;
+      color:white;
+      border:1px solid white;
+    }
+    .item:nth-child(1){
+      flex-basis:150px;
+    }
+    .item:nth-child(2){
+      flex-basis:150px;
+      flex-shrink: 0;
+    }
+  </style>
+  <body>
+     <!--div 태그는 block 엘리먼트이기에 화면 전체를 쓴다 -->
+    <div class="container">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+    </div>
+  </body>
+</html>
+```
+
+- nth-child(n) : 해당 클래스의 n번 째
+- flex-basis: npx; 크기 픽셀
+- flex-grow : 아이템들이 컨테이너의 여백을 균등하게 채움
+  - 하나만 키우고 싶은 경우 cascading을 통해 우선순위를 활용하자
+- flex-shrink : basis 값이 있을 때 크기가 줄어드는 기능
+
+### Holy Grail Layout
+
+Holy Grail은 성배라는 뜻이다. 많은 사람들이 성배를 찾기 위해서 노력했지만 찾지 못한 것처럼 많은 사람들이 아래와 같은 레이아웃을 만들기 위해서 노력했지만 완벽한 방법을 찾지 못했다. 이것에 비유해서 이런 레이아웃을 성배 레이아웃이라고 부르곤 한다. flex는 이러한 문제를 아주 간편하게 해결 가능하다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/48a88e93-c592-447d-8fd5-0648c210065f/Untitled.png)
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <header>
+          <h1>생활건희</h1>
+        </header>
+        <section class="content">
+          <nav>
+            <ul>
+              <li>html</li>
+              <li>css</li>
+              <li>javascript</li>
+            </ul>
+          </nav>
+          <main>
+            생활건희는 일반인을 위한 코딩 수업입니다.
+          </main>
+          <aside>
+            AD
+          </aside>
+        </section>
+        <footer>
+          <a href="<https://opentutorials.org/course/1>">홈페이지</a>
+        </footer>
+    </div>
+  </body>
+</html>
+```
+
+성배 레이아웃을 사용하기 전 기초적인 틀
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      .container{
+        display:flex;
+        flex-direction: column;
+        }
+      header{
+        border-bottom:1px solid gray;
+        padding-left: 20px;
+      }
+      footer{
+        border-top:1px solid gray;
+        padding-left: 20px;
+        text-align: center;
+      }
+      .content{
+        display: flex;
+      }
+      .content nav{
+        border-right: 1px solid gray;
+      }
+      .content aside{
+        border-left: 1px solid gray;
+      }
+      nav, aside{
+        flex-basis:150px;
+        flex-shrink:0;
+      }
+      main{
+        padding:10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <header>
+          <h1>생활건희</h1>
+        </header>
+        <section class="content">
+          <nav>
+            <ul>
+              <li>html</li>
+              <li>css</li>
+              <li>javascript</li>
+            </ul>
+          </nav>
+          <main>
+            생활건희는 일반인을 위한 코딩 수업입니다.
+          </main>
+          <aside>
+            AD
+          </aside>
+        </section>
+        <footer>
+          <a href="<https://opentutorials.org/course/1>">홈페이지</a>
+        </footer>
+    </div>
+  </body>
+</html>
+```
+
+성배 레이아웃
+
+### flex의 다양한 속성들
+
+https://codepen.io/enxaneta/pen/adLPwv 클론해보기?
