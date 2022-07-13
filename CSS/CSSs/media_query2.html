@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      .container{
+        display:flex;
+        flex-direction: column;
+        }
+      header{
+        border-bottom:1px solid gray;
+        padding-left: 20px;
+      }
+      footer{
+        border-top:1px solid gray;
+        padding-left: 20px;
+        text-align: center;
+      }
+      .content{
+        display: flex;
+      }
+      .content nav{
+        border-right: 1px solid gray;
+      }
+      .content aside{
+        border-left: 1px solid gray;
+      }
+      nav, aside{
+        flex-basis:150px;
+        flex-shrink:0;
+      }
+      @media(max-width: 500px){
+        .content{
+          flex-direction: column;
+        }
+        .content nav{
+          border: none;
+          flex-basis: auto;
+      }
+      .content aside{
+          border: none;
+          flex-basis: auto;
+        }
+        main{
+          order:0;
+        }
+        nav{
+          order:1;
+        }
+        aside{
+          order:2;
+          display: none;
+        }
+      }
+      main{
+        padding:10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <header>
+          <h1>생활건희</h1>
+        </header>
+        <section class="content">
+          <nav>
+            <ul>
+              <li>html</li>
+              <li>css</li>
+              <li>javascript</li>
+            </ul>
+          </nav>
+          <main>
+            생활건희는 일반인을 위한 코딩 수업입니다.
+          </main>
+          <aside>
+            AD
+          </aside>
+        </section>
+        <footer>
+          <a href="https://opentutorials.org/course/1">홈페이지</a>
+        </footer>
+    </div>
+  </body>
+</html>

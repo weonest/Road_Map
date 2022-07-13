@@ -872,3 +872,133 @@ Holy Grail은 성배라는 뜻이다. 많은 사람들이 성배를 찾기 위�
 ### flex의 다양한 속성들
 
 https://codepen.io/enxaneta/pen/adLPwv 클론해보기?
+
+## media query
+
+화면의 종류와 크기에 따라서 디자인을 달리 줄 수 있는 CSS의 기능이다. 특히 최근의 트랜드인 반응형 디자인의 핵심 기술이라고 할 수 있다.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      @media (max-width:600px){
+        body{
+          background-color: green;
+        }
+      }
+      @media (max-width:500px){
+        body{
+          background-color: red;
+        }
+      }
+      @media (min-width:601px){
+        body{
+          background-color: blue;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    ~500px : red
+    501~600px : green
+    601px : blue
+  </body>
+</html>
+```
+
+- max-width : 500 이하, min-width : 500 이상
+- 나중에 나온 코드가 우선순위가 높다 (cascading)
+- 페이지 검사 (개발자모드) toggle device로 테스트를 해볼 수도 있다.
+- **<meta name="viewport" content="width=device-width, initial-scale=1.0"> 장치에 맞게 설정**
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      .container{
+        display:flex;
+        flex-direction: column;
+        }
+      header{
+        border-bottom:1px solid gray;
+        padding-left: 20px;
+      }
+      footer{
+        border-top:1px solid gray;
+        padding-left: 20px;
+        text-align: center;
+      }
+      .content{
+        display: flex;
+      }
+      .content nav{
+        border-right: 1px solid gray;
+      }
+      .content aside{
+        border-left: 1px solid gray;
+      }
+      nav, aside{
+        flex-basis:150px;
+        flex-shrink:0;
+      }
+      @media(max-width: 500px){
+        .content{
+          flex-direction: column;
+        }
+        .content nav{
+          border: none;
+          flex-basis: auto;
+      }
+      .content aside{
+          border: none;
+          flex-basis: auto;
+        }
+        main{
+          order:0;
+        }
+        nav{
+          order:1;
+        }
+        aside{
+          order:2;
+          display: none;
+        }
+      }
+      main{
+        padding:10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <header>
+          <h1>생활건희</h1>
+        </header>
+        <section class="content">
+          <nav>
+            <ul>
+              <li>html</li>
+              <li>css</li>
+              <li>javascript</li>
+            </ul>
+          </nav>
+          <main>
+            생활건희는 일반인을 위한 코딩 수업입니다.
+          </main>
+          <aside>
+            AD
+          </aside>
+        </section>
+        <footer>
+          <a href="<https://opentutorials.org/course/1>">홈페이지</a>
+        </footer>
+    </div>
+  </body>
+</html>
+```
+
+(성배 레이아웃에 미디어쿼리 응용)
