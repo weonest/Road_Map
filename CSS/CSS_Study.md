@@ -1002,3 +1002,167 @@ https://codepen.io/enxaneta/pen/adLPwv 클론해보기?
 ```
 
 (성배 레이아웃에 미디어쿼리 응용)
+
+## flaot
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      img{
+        width:300px;
+        float:right;
+        margin:20px;
+      }
+      p{
+        border:1px solid gray;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="images/img123.jpg" alt="">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <p style="clear:both;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  </body>
+</html>
+```
+
+- float : 이미지를 삽입할 때 위치를 결정하는 태그
+- <p style=”clear:@@@”> : float를 무시하고 위치를 지정하는 태그
+
+### float를 활용한 holy grail layout
+
+```html
+<!doctype html>
+<html>
+<head>
+  <style>
+    *{
+      box-sizing:border-box;
+    }
+    .container{
+      width:540px;
+      border:1px solid gray;
+      margin:auto;
+    }
+    header{
+      border-bottom: 1px solid gray;
+    }
+    nav{
+      float:left;
+      width:120px;
+      border-right:1px solid gray;
+    }
+    article{
+      float:left;
+      width:300px;
+      border-left:1px solid gray;
+      border-right:1px solid gray;
+      margin-left:-1px;
+    }
+    aside{
+      float:left;
+      width:120px;
+      border-left:1px solid gray;
+      margin-left:-1px;
+    }
+    footer{
+      clear:both;
+      border-top:1px solid gray;
+      text-align: center;
+      padding:20px;
+    }
+  </style>
+</head>
+<body>
+ <div class="container">
+    <header>
+    <h1>
+      CSS
+    </h1>
+    </header>
+    <nav>
+      <ul>
+        <li>position</li>
+        <li>float</li>
+        <li>flex</li>
+      </ul>
+    </nav>
+    <article>
+      <h2>float</h2>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit quae earum enim ab distinctio corrupti eius reprehenderit non, rerum ut nisi autem cum sint perferendis eum id velit, molestias nesciunt. Ullam dignissimos consequuntur explicabo id voluptas vel deleniti nesciunt veritatis iusto commodi, laudantium cumque vero deserunt laboriosam. Ea, quia est?
+    </article>
+    <aside>
+      ad
+    </aside>
+    <footer>
+      copyleft
+    </footer>
+ </div>
+
+</body>
+</html>
+```
+
+- 확실히 flex로 성배 레이아웃을 짜는 것이 더욱 간편하고 용이하다.
+- border를 포함하지 않고 width 를 계산하게 되는 경우 레이아웃이 깨지는 경우가 있기 때문에 이를 간편하게 하기 위해 box-sizing은 필수!
+
+## multi column
+
+다단은 아래 신문처럼 화면을 분할해서 좀 더 읽기 쉽도록 만든 레이아웃이다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/adb80c98-fe5d-409d-9a1f-c1a129845e68/Untitled.png)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="egoing">
+    <style>
+      .column{
+        text-align: justify;
+        column-count: 4;
+/*        column-width: 200px;*/
+        column-gap:30px;
+        column-rule-style: solid;
+        column-rule-width: 5px;
+        column-rule-color: red;
+      }
+      h1{
+        column-span: all;
+      }
+    </style>
+</head>
+<body>
+   <div class="column">
+     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae blanditiis nostrum eum ipsam,
+
+     quam expedita distinctio aspernatur voluptas inventore in officia at, a repudiandae modi vel dicta exercitationem accusamus? Tenetur minima doloremque, sequi id, necessitatibus deleniti porro ex maxime perferendis quaerat rerum molestias dolor fugit ullam expedita? Earum velit eaque, esse aliquid labore, ex, corporis odit deserunt consectetur sit aspernatur
+      <h1>Lorem ipsum dolor sit amet.</h1>
+       ipsam quos cupiditate dolores voluptatem non nam voluptas ab animi quidem adipisci repellat id quod. Laboriosam, distinctio, ut. Quia deserunt, voluptates illum eos, qui, doloremque recusandae laudantium aliquam amet rerum nulla, eveniet. Libero quas iusto, suscipit esse beatae voluptas labore. Nobis facere architecto adipisci ipsa molestias, possimus tempore. Obcaecati, quae laborum atque perspiciatis natus dolore repellendus in officia, sit! Placeat, nesciunt cupiditate similique vitae minima iusto blanditiis perferendis obcaecati enim odio delectus. Quaerat quos deserunt, voluptas aperiam. Quo neque ducimus accusamus quibusdam minima incidunt, voluptatem saepe iusto sit numquam, expedita distinctio aliquid voluptatum alias voluptate sint est ab similique ipsam unde quas porro error? Illum unde consequuntur ab optio architecto, adipisci odit saepe dolor est perferendis error autem iusto a iste tempore nam enim quaerat dicta fugit vel eaque itaque, laborum? Dolores consequatur quo labore dolorem nemo in, tempora animi enim delectus ipsam amet possimus et deserunt recusandae eveniet provident cum quaerat dolorum esse, nam doloremque! Porro sapiente labore aliquam incidunt temporibus praesentium est tempora magnam placeat rem. Autem non provident eos perferendis nihil numquam quisquam suscipit aut, vero minima ex iure cum possimus eveniet veniam aliquam nulla a dignissimos, fugit tempora eaque totam temporibus! Magni minus expedita tempore deserunt necessitatibus, quibusdam, repellat sequi quos exercitationem aliquam sapiente libero eius vitae rem ea nihil deleniti nemo debitis tempora soluta a similique inventore. Sit vero dignissimos facere dolore dicta nulla iure magni quos officiis esse hic accusantium, praesentium adipisci laudantium impedit provident fuga suscipit, placeat porro itaque voluptatum dolorem ullam velit quasi. Laboriosam distinctio explicabo, ullam fugit nesciunt nam itaque repellendus nemo doloribus officia unde quaerat aspernatur odit. Porro quisquam at officia, ad totam minima minus aliquid aliquam rerum dicta, odio sint optio. Exercitationem similique, dignissimos sit nihil fuga ex dolores molestiae ratione impedit error, vitae aliquid reiciendis maxime id odit sed eveniet. Corporis in mollitia assumenda, exercitationem ullam explicabo dolorum tempore architecto cum. Possimus natus ipsam facilis porro magni deleniti nulla eveniet aliquam incidunt minima nihil alias voluptatem, odio molestiae quaerat suscipit, officiis temporibus itaque veritatis, placeat modi corporis saepe harum delectus officia. Libero rerum expedita dolorem porro architecto reprehenderit eligendi molestiae, amet minima quae assumenda neque nulla error, officiis suscipit placeat, illo eius. Aliquid dicta cupiditate culpa consequatur totam. Qui consequuntur eveniet eum dicta repellendus quam ea quisquam dolore, distinctio, quidem facilis minus ratione ullam perferendis. Ad ea, aliquid doloremque distinctio enim hic sunt illum dolore, commodi iusto nobis temporibus nesciunt, vero quae velit perferendis dicta. Quod necessitatibus sit, accusamus odit aspernatur! Sequi, nisi aut at totam perspiciatis fugit quos minus sapiente consequatur neque officiis quibusdam qui nemo, voluptatibus minima dolore laboriosam. Recusandae similique accusamus vel eaque tempore fugiat dolore adipisci, tempora, impedit harum facere aspernatur et nam sequi, facilis architecto voluptate sunt iusto soluta. Itaque laboriosam tempore ab harum fugit natus, eius laborum culpa, impedit autem magni totam. Et dicta animi molestiae, aliquam, sequi enim. Accusamus consectetur eum eligendi nemo sunt provident ut repudiandae, distinctio! Recusandae harum animi quia perferendis maiores! Ratione quis cupiditate odio dolore nulla minus iure veritatis hic temporibus neque beatae delectus doloribus repellat quisquam alias mollitia accusantium perferendis, quibusdam recusandae, iusto modi maiores excepturi corrupti voluptatibus! Facere, maiores ea natus culpa necessitatibus temporibus, eaque, vitae nihil animi repudiandae expedita aspernatur quo sequi, soluta. Minus eligendi tenetur ullam, doloremque, quod libero provident excepturi beatae cumque quo, voluptate. Quam deleniti minus officiis. Sit velit, debitis voluptatem modi consequatur doloremque aperiam assumenda expedita odio nesciunt quis ipsam, cumque impedit quia veritatis error quidem similique accusantium eos, qui sunt? Blanditiis facere tenetur eius minus dolorum, praesentium doloremque consequatur accusamus quis expedita, reiciendis odio optio illo voluptatibus ut asperiores quos officia totam distinctio eaque. Aspernatur eaque nihil porro illo laboriosam ex ea id fuga ipsa! Cum reprehenderit, cumque dolorum aliquam quidem aliquid soluta corrupti pariatur fugiat quae excepturi tempora, nostrum eveniet accusamus consectetur alias minus nulla unde. Rem expedita vitae labore culpa, id sit reiciendis quaerat, temporibus nemo eos modi error excepturi voluptatem. Non officia, accusantium inventore reiciendis cupiditate laboriosam ullam quaerat officiis facilis modi eum iste eius, soluta, iure nobis dolor. Similique deserunt beatae officia reprehenderit quo, aliquam facilis autem nihil in! Quisquam minima sunt corporis, ipsum maiores nam quia corrupti, odit id suscipit ratione voluptate nisi incidunt sequi eum facilis dicta deleniti aliquid ducimus maxime esse qui. Sunt eius, deserunt illo quod ducimus quasi, sed soluta ipsum inventore nisi! Optio modi omnis, ex, fugit nemo eveniet. Nostrum, incidunt porro, dolores non, dolor velit commodi eius recusandae eaque necessitatibus molestiae dolorem unde ipsa voluptatum. Ipsa ab minus atque non quis debitis delectus similique excepturi, ipsum suscipit perferendis doloribus deleniti nam blanditiis architecto quae fuga porro perspiciatis magnam ipsam pariatur. Quia, temporibus. Molestias quia nesciunt vitae quam, deserunt dolor adipisci architecto minus natus facere, molestiae, sint eum. Soluta magni totam ducimus, deserunt quam, nisi unde, asperiores iusto, repudiandae aperiam dolorem ab libero aliquam fugit ratione voluptatem sunt vel earum saepe debitis id nostrum minus ullam quaerat. Amet molestias deserunt quae assumenda ut odit corporis accusantium saepe labore ad. Distinctio in doloremque, deleniti provident ducimus quisquam at, temporibus odio eligendi, consequuntur sequi quibusdam facere aut enim vel similique eius asperiores aperiam ratione suscipit est eum dolore. In eius dignissimos, quod illum dolores! Molestiae possimus eius, illo incidunt optio deleniti, nihil odit nisi harum, quo ex. Corporis omnis accusantium consequuntur ratione laudantium magni tempora expedita. Earum ullam, aspernatur quisquam doloremque soluta quae eius tempora atque magni omnis ex vel iusto, similique eos provident! Autem ipsum aliquam quasi minima, incidunt perferendis facere, optio nobis rerum dolor ipsam quas. Quam consectetur recusandae voluptatem. Praesentium excepturi sunt ut neque eum labore ducimus repudiandae eveniet quibusdam explicabo, iure obcaecati nobis, veritatis quis et accusantium ipsa.
+   </div>
+</body>
+</html>
+```
+
+- column-count : 컬럼을 분할하는 태그
+  - column-width 로 넓이를 지정해서 분할할 수도 있다.
+- column-gap : 컬럼 사이의 간격을 지정하는 태그
+- column-rule-!@# : 컬럼의 규치를 설정하는 태그
+- column-span: all; : 컬럼을 무시하고 빼낼 수 있다
+
+## background
+
+```html
+
+```
+
+- background-color : red
+- background-image : url("bg.png")
+- background-repeat : repeat, no-repeat, repeat-x, repeat-y
+- background-attachment : scroll, fixed
+- background-position : left top or x% y% or x y
+- background-size : 100px 100px or cover or contain
