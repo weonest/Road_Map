@@ -1157,12 +1157,37 @@ https://codepen.io/enxaneta/pen/adLPwv 클론해보기?
 ## background
 
 ```html
-
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      div{
+        font-size:100px;
+        height: 500px;
+        border: 5px solid gray;
+        background-image: url("images/img123.jpg");
+        <!-- background-repeat: no-repeat;
+        backgournd-attachment: fixed;
+        background-size: contain; -->
+        background: url("images/img123.jpg") no-repeat fixed contain;
+				축약형도 가능
+      }
+    </style>
+  </head>
+  <body>
+    <div class="">
+      Hello world
+    </div>
+  </body>
+</html>
 ```
 
 - background-color : red
 - background-image : url("bg.png")
 - background-repeat : repeat, no-repeat, repeat-x, repeat-y
-- background-attachment : scroll, fixed
+- background-attachment : scroll, fixed : 백그라운드 이미지 고정, 스크롤
 - background-position : left top or x% y% or x y
 - background-size : 100px 100px or cover or contain
+  - contain : 여백이 생기며 사진 전체가 들어옴
+  - cover : 여백 없이 사진 일부가 전체로 들어옴
