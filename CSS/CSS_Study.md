@@ -1191,3 +1191,205 @@ https://codepen.io/enxaneta/pen/adLPwv 클론해보기?
 - background-size : 100px 100px or cover or contain
   - contain : 여백이 생기며 사진 전체가 들어옴
   - cover : 여백 없이 사진 일부가 전체로 들어옴
+
+## filter
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      img{
+        transition: all 1s;
+      }
+      img:hover{
+        -webkit-filter: grayscale(100%)  blur(1px);
+        -o-filter: grayscale(100%) blur(1px);
+        filter : grayscale(100%) blur(1px);
+      }
+      h1{
+        -webkit-filter: blur(1px);
+        -o-filter: blur(1px)
+        filter: blur(1px);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Siro</h1>
+    <img src="images/img123.jpg" width="500">
+  </body>
+</html>
+```
+
+- hover : 마우스가 위치하면 필터 적용
+- transition : 화면 전환 효과 적용
+
+## blend
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <style>
+      .blend{
+        height:400px;
+        border:5px solid;
+        background-color: rgba(255,0,0,0.5);
+        background-size:cover;
+        background-image:url('images/img123.jpg');
+        background-blend-mode: difference;
+        transition:background-color 10s;
+      }
+      .blend:hover{
+        background-color: rgba(255,0,0,1);
+        transition:background-color 5s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blend">
+
+    </div>
+  </body>
+</html>
+```
+
+## mix-blend
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      body{
+          background: url("images/img123.jpg");
+
+      }
+      .blend{
+        font-size:2rem;
+        font-weight: bold;
+        color:red;
+        mix-blend-mode: screen;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blend">
+      <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h1>
+    </div>
+  </body>
+</html>
+```
+
+- mix-blend-mode : 대상과 배경사이의 합성 모드 설정
+
+## transform
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <style media="screen">
+      h1{
+        background-color: deepskyblue;
+        color:white;
+        display:inline-block;
+        padding: 5px;
+        font-size:3rem;
+        margin: 100px;
+      }
+      h1:hover{
+        transform:
+          scale(1.5)
+          ;
+          **transform-origin: left top; // 트랜스폼 기준점**
+          transition:all 1s;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello Transform!</h1>
+  </body>
+</html>
+```
+
+- 트랜스폼을 중첩하면 나중에 나온 것이 앞에 것을 덮어버린다. 따라서, 한 줄에 넣어야 한다.
+- 형식 : https://opentutorials.org/course/2418/13684 & Codepen 사이트
+
+## transition
+
+```html
+<!doctype html>
+<html>
+<head>
+  <style>
+    a{
+      font-size:3rem;
+      display:inline-block;
+			/*
+      transition-**property**: font-size transform; // 전환 대상
+      transition-**duration**: 0.1s;  // 전환 지속 시간
+      */
+      transition:all 0.1s;
+
+    }
+    a:**active**{ // 클릭시에 효과 적용
+      transform:translate(20px, 20px); //(x, y) 이동
+      font-size:2rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="#">Click</a>
+</body>
+</html>
+<!doctype html>
+<html>
+<head>
+  <style>
+    body{
+      background-color: black;
+      transition:all 1s;
+    }
+    div{
+      background-color: black;
+      color:white;
+      padding:10px;
+      width:100px;
+      height:50px;
+      -webkit-transition: all 500ms cubic-bezier(0.680, 0, 0.265, 1); /* older webkit */
+      -webkit-transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550);
+         -moz-transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550);
+           -o-transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550);
+              transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550); /* easeInOutBack */
+
+      -webkit-transition-timing-function: cubic-bezier(0.680, 0, 0.265, 1); /* older webkit */
+      -webkit-transition-timing-function: cubic-bezier(0.680, -0.550, 0.265, 1.550);
+         -moz-transition-timing-function: cubic-bezier(0.680, -0.550, 0.265, 1.550);
+           -o-transition-timing-function: cubic-bezier(0.680, -0.550, 0.265, 1.550);
+              transition-timing-function: cubic-bezier(0.680, -0.550, 0.265, 1.550); /* easeInOutBack */
+    }
+    div:hover{
+      height:400px;
+    }
+  </style>
+</head>
+<body onload="document.querySelector('body').style.backgroundColor='white';">
+  <div>
+    TRANSITION
+  </div>
+</body>
+</html>
+```
+
+## link & import
+
+똑같은 CSS를 적용해야 하는 웹페이지가 1,000개가 있을때 CSS의 내용이 바뀌었다면 어떻게 해야 할까?
+
+```html
+
+```
+
