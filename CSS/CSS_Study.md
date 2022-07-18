@@ -1390,6 +1390,19 @@ https://codepen.io/enxaneta/pen/adLPwv 클론해보기?
 똑같은 CSS를 적용해야 하는 웹페이지가 1,000개가 있을때 CSS의 내용이 바뀌었다면 어떻게 해야 할까?
 
 ```html
-
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+      **<style>@import url("style.css")</style>
+			<link rel="stylesheet" href="style.css">**
+  </head>
+  <body>
+      <h1>page1</h1>
+  </body>
+</html>
 ```
 
+- <link rel="stylesheet" href="style.css"> : link로 빼오는 법
+- <style>@import url("style.css")</style> : @import로 빼오는 법
+- 이러한 방법으로 가져오면 유지보수의 편의성, 사용자와 제공자의 경제성
