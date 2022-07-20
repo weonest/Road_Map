@@ -1406,3 +1406,35 @@ https://codepen.io/enxaneta/pen/adLPwv 클론해보기?
 - <link rel="stylesheet" href="style.css"> : link로 빼오는 법
 - <style>@import url("style.css")</style> : @import로 빼오는 법
 - 이러한 방법으로 가져오면 유지보수의 편의성, 사용자와 제공자의 경제성
+
+## 코드 경량화 (minify)
+
+```html
+
+```
+
+- • http://adamburgess.github.io/clean-css-online/
+
+## CSS 뛰어넘기 (preprocessor)
+
+```html
+body {
+  font: 14px/1.5 Helvetica, arial, sans-serif;
+  #logo {
+    border-radius: 5px;  // 새로운 문법 적용 
+  }
+}
+
+body {
+  font: 14px/1.5 Helvetica, arial, sans-serif;
+}
+body #logo { //body가 중복으로 나옴
+  border-radius: 5px;
+}
+```
+
+대표적인 preprocessor들입니다.
+
+- http://lesscss.org/ ([온라인 변환기](http://less2css.org/))
+- http://sass-lang.com/
+- http://stylus-lang.com/ ([온라인 변환기](http://stylus-lang.com/try.html#?code=body {  font%3A 14px%2F1.5 Helvetica%2C arial%2C sans-serif%3B  %23logo {    border-radius%3A 5px%3B  } })) 수업에서 사용
