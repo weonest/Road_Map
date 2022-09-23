@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service // service 임을 스프링이 인지할 수 있게 해줌
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
