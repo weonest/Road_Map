@@ -46,4 +46,29 @@ alter table 테이블명 add 컬럼명 자료형(자료형길이) 제약조건;
 SELCET * FROM 테이블명; (범위 지정 안 하면 전부 가져옴)
 ```
 
-ㅇ
+- 셀렉트
+
+```java
+select id, title, created, author from topic where author='egoing' order by id desc;
+SELECT id, title, created, author FROM topic WHERE author='egoing' order by id DESC LIMIT 2;
+```
+
+- 업데이트
+
+```java
+UPDATE topic SET description='ORACLE is...', title = 'ORACLE' WHERE id = 2;
+```
+
+- 딜리트
+
+```java
+DELETE FROM topic WHERE id = 5;
+```
+
+- 컬럼 순서 변경
+
+```java
+ALTER TABLE topic MODIFY COLUMN description TEXT AFTER author;
+ALTER TABLE 테이블명 MODIFY COLUMN 컬럼명 자료형 AFTER 다른컬럼;
+```
+
