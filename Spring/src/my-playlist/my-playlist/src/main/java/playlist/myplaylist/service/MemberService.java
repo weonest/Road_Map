@@ -16,10 +16,10 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Long join(Member member) {
+    public Member join(Member member) {
         validateDuplicateMember(member);
         memberRepository.save(member);
-        return member.getId();
+        return member;
 
     }
 
