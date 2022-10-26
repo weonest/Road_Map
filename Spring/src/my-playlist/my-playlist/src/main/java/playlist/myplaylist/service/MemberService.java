@@ -18,6 +18,7 @@ public class MemberService {
 
     public Member join(Member member) {
         validateDuplicateMember(member);
+        System.out.println("서비스 :" + member.toString());
         memberRepository.save(member);
         return member;
 
