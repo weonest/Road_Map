@@ -12,6 +12,7 @@ public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 
+    // 여기 수정하기
     private Long id;
     private String password;
     private String name;

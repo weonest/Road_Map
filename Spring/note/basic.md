@@ -25,3 +25,7 @@ Artifact : 프로젝트 명
 Dependencies : 가져올 라이브러리
 
 tomcat 서버를 내장하고 있어서 자동으로 서버를 열 수 있게 된다
+
+- Model은 HashMap 형태를 갖고 있어 key값과 value값처럼 사용할 수 있다.
+
+  addAttribute는 Map의 put과 같은 기능으로 해당 모델에 원하는 속성과 그것에 대한 값을 주어 전달할 View에 데이터를 전달할 수 있다.
