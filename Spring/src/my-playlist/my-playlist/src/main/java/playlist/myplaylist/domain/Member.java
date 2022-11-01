@@ -9,21 +9,25 @@ import javax.persistence.Id;
 
 @Entity
 public class Member {
+    @Override
+    public String toString() {
+        return "Member{id='" + id + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    // 여기 수정하기
-    private Long id;
+    @Id
+    private String id;
     private String password;
     private String name;
-    private String email;
-    private String phone;
 
-    public Long getId() {
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -41,22 +45,6 @@ public class Member {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
 }

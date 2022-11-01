@@ -18,14 +18,13 @@ public class MemberService {
 
     public Member join(Member member) {
         validateDuplicateMember(member);
-        System.out.println("서비스 :" + member.toString());
         memberRepository.save(member);
         return member;
 
     }
 
     private void validateDuplicateMember(Member member) {
-        memberRepository.findByEmail(member.getEmail())
+        memberRepository.findById(member.getId())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 가입된 이메일입니다.");
                 });
@@ -35,7 +34,7 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Optional<Member> findOne(Long memberId) {
+    public Optional<Member> findOne(String memberId) {
         return memberRepository.findById(memberId);
     }
 }

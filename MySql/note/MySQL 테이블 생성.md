@@ -72,3 +72,35 @@ ALTER TABLE topic MODIFY COLUMN description TEXT AFTER author;
 ALTER TABLE 테이블명 MODIFY COLUMN 컬럼명 자료형 AFTER 다른컬럼;
 ```
 
+ㅇ
+
+### **컬럼 추가 (Add)**
+
+```
+ALTER TABLE table_name ADD COLUMN ex_column varchar(32) NOT NULL;
+```
+
+### **컬럼 변경 (Modify)**
+
+```
+ALTER TABLE table_name MODIFY COLUMN ex_column varchar(16) NULL;
+```
+
+### **컬럼 이름까지 변경 (Change)**
+
+```
+ALTER TABLE table_name CHANGE COLUMN ex_column ex_column2 varchar(16) NULL;
+```
+
+### **컬럼 삭제 (Drop)**
+
+```
+ALTER TABLE table_name DROP COLUMN ex_column;
+```
+
+### **테이블 이름 변경 (RENAME)**
+
+```
+ALTER TABLE table_name1 RENAME table_name2;
+```
+

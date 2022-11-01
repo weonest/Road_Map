@@ -26,11 +26,12 @@ public class MemberController {
     public String create(MemberForm form) {
         Member member = new Member();
 
+        System.out.println(form.toString());
+
+        member.setId(form.getId());
         member.setPassword(form.getPassword());
         member.setName(form.getName());
-        member.setEmail(form.getEmail());
-        member.setPhone(form.getPhone());
-
+        System.out.println(member.toString());
         memberService.join(member);
 
         return "redirect:/";
