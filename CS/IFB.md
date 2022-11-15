@@ -52,4 +52,4 @@ REST는 Representational State Transfer라는 용어의 약자로서 2000년도�
 
 1. Uniform (유니폼 인터페이스)
 
-Uniform Interface는 URI로 지정한 리소스에 대한 조작을 통일되고
+Uniform Interface는 URI로 지정한 리소스에 대한 조작을 통일되고s
