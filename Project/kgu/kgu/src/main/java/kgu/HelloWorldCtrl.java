@@ -12,4 +12,9 @@ public class HelloWorldCtrl {
     public String helloworld() {
         return "hello!";
     }
+
+    @RequestMapping("/map")
+    public String getMap() {
+        return "mainmap";
+    }
 }
