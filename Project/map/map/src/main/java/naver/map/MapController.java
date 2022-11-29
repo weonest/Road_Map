@@ -10,4 +10,9 @@ public class MapController {
     public String getMap() {
         return "mainMap";
     }
+
+    @RequestMapping("/signup")
+    public String sign() {
+        return "signup";
+    }
 }

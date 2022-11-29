@@ -1,14 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap" rel="stylesheet">
+    <style>*{font-family: 'Noto Sans KR', sans-serif;}
+    .h3{
+        text-align: center;
+    }
+    .star{
+        text-align: center;
+    }
+    .con{
+        font-size: 13px;
+    }
+    </style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>간단한 지도 표시하기</title>
+    <title>경기요 - 경기대 맛집리스트</title>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=dol835p4ve"></script>
 </head>
 <body>
-<div id="map" style="width:100%;height:400px;"></div>
+<div id="map" style="width:100%;height:900px;"></div>
 
 <script>
     var mapOptions = {
@@ -17,80 +31,45 @@
     };
 
     var map = new naver.maps.Map('map', mapOptions);
+
     var HOME_PATH = window.HOME_PATH || '.';
-    var map = new naver.maps.Map(document.getElementById('map'), {zoom: 11});
+    var cityhall = new naver.maps.LatLng(37.3006759, 127.035805),
+        map = new naver.maps.Map('map', {
+            center: cityhall,
+            zoom: 15
+        }),
+        marker = new naver.maps.Marker({
+            map: map,
+            position: cityhall
+        });
 
-    map.fitBounds(naver.maps.LatLngBounds.bounds(new naver.maps.LatLng(37.3724620, 127.1051714),
-        new naver.maps.LatLng(37.3542795, 127.1174332)));
-
-    var urlMarker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(37.3542795, 127.1072556),
-        map: map,
-        title: 'urlMarker',
-        icon: HOME_PATH +"/img/example/pin_default.png",
-        animation: naver.maps.Animation.DROP
+    var contentString = [
+        '<div class="iw_inner">',
+        '   <h3 class="h3">  카타르시스  </h3>',
+        '   <p class="con"> 양도 줄었고 기존에 있던 메뉴들이 대부분 사라짐</p>',
+        '   <p class="star"> 평점 : 4.3</p>',
+        '</div>'
+    ].join('');
+    var infowindow = new naver.maps.InfoWindow({
+        content: contentString,
+        maxWidth: 200,
+        backgroundColor: "#eee",
+        borderColor: "#2db400",
+        borderWidth: 3,
+        anchorSize: new naver.maps.Size(15, 2),
+        anchorSkew: true,
+        anchorColor: "#eee",
+        pixelOffset: new naver.maps.Point(20, -20)
     });
 
-    naver.maps.Event.addListener(urlMarker, 'click', function() {
-        if (urlMarker.getAnimation() !== null) {
-            urlMarker.setAnimation(null);
+    naver.maps.Event.addListener(marker, "click", function(e) {
+        if (infowindow.getMap()) {
+            infowindow.close();
         } else {
-            urlMarker.setAnimation(naver.maps.Animation.BOUNCE);
+            infowindow.open(map, marker);
         }
     });
 
-    var imageMarker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(37.3637770, 127.1174332),
-        map: map,
-        title: 'imageMarker',
-        icon: HOME_PATH +"/img/example/pin_default.png",
-        animation: naver.maps.Animation.BOUNCE
-    });
-
-    var symbolMarker = new naver.maps.Marker({
-        map: map,
-        position: new naver.maps.LatLng(37.3692417, 127.1134740),
-        title: 'symbolMarker',
-        icon: {
-            path: [
-                new naver.maps.Point(0, 70), new naver.maps.Point(20, 100), new naver.maps.Point(40, 70),
-                new naver.maps.Point(30, 70), new naver.maps.Point(70, 0), new naver.maps.Point(10, 70)
-            ],
-            style: "closedPath",
-            anchor: new naver.maps.Point(23, 103),
-            fillColor: '#ff0000',
-            fillOpacity: 1,
-            strokeColor: '#000000',
-            strokeStyle: 'solid',
-            strokeWeight: 3
-        },
-        shape: {
-            coords: [0, 70, 20, 100, 40, 70, 30, 70, 70, 0, 10, 70],
-            type: "poly"
-        },
-        animation: naver.maps.Animation.BOUNCE
-    });
-
-    var htmlMarker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(37.3578575, 127.1063746),
-        map: map,
-        title: 'htmlMarker',
-        icon: {
-            content: [
-                '<div class="cs_mapbridge">',
-                '<div class="map_group _map_group">',
-                '<div class="map_marker _marker tvhp tvhp_big">',
-                '<span class="ico _icon"></span>',
-                '<span class="shd"></span>',
-                '</div>',
-                '</div>',
-                '</div>'
-            ].join(''),
-            size: new naver.maps.Size(38, 58),
-            anchor: new naver.maps.Point(19, 58)
-        },
-        animation: naver.maps.Animation.BOUNCE
-    });
 </script>
 </body>
 </html>
