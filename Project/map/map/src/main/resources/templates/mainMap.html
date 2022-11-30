@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap" rel="stylesheet">
     <style>*{font-family: 'Noto Sans KR', sans-serif;}
-    .info{
-        display: block;
+
+    .info {
+        display: flex;
         background: #FFF;
         color: #000;
         text-align: center;
-        line-height:12px;
+        line-height: 7px;
         border-style: solid;
-        border-width: 2px;
+        border-width: 1px;
         border-color: #f88b3d;
-        border-radius:23px;
-        padding:0px 10px 0px 10px;
+        border-radius: 23px;
+        padding: 0px 10px 0px 0px;
     }
-    .name{
-        margin: 10px;
+    .lf {
+        width: 20px;
+        height: 20px;
+    }
+    .left {
+        width: 30%;
+        width: 30px;
+        padding-top: 50%;
+        padding-left: 20px;
+        background-size: contain;
+        border-radius: 30px;
+        background-image: url("https://velog.velcdn.com/images/weonest/profile/68fc423b-9199-4047-8eb8-c1d98af92a01/image.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        float: left;
+    }
+    .right {
+        contain: content;
+        float: right;
     }
     </style>
     <meta charset="UTF-8">
@@ -31,6 +50,7 @@
 <div id="map" style="width:100%;height:900px;"></div>
 
 <script>
+
     var mapOptions = {
         center: new naver.maps.LatLng(37.3006759, 127.035805),
         zoom: 10
@@ -57,13 +77,14 @@
     //     '</div>'
     // ].join('');
     var infowindow = new naver.maps.InfoWindow({
-        content: '<span class="info">' +
-            '<h3 class="name">카타르시스</h3>' +
-            '<p class="text">맛 좋더라 캬아아</p>' +
-            '' +
-            '' +
-            '</span>',
-        maxWidth: 200,
+        content:
+        '<div class="info">' +
+            // '<img src="turtle.png" width="20" height="20">' +
+            '<div class="left lf">' +
+            '</div>' +
+            '<div class="right"><h3>카타르시스ddd</h3><p>이거 맛좋네ddddddddd</p><p>평점:4.5</p></div>' +
+            '</div>',
+        // maxWidth: 200,
         backgroundColor: "",
         borderWidth: "",
         disableAnchor: true,
