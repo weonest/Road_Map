@@ -5,14 +5,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap" rel="stylesheet">
     <style>*{font-family: 'Noto Sans KR', sans-serif;}
-    .h3{
+    .info{
+        display: block;
+        background: #FFF;
+        color: #000;
         text-align: center;
+        line-height:12px;
+        border-style: solid;
+        border-width: 2px;
+        border-color: #3df863;
+        border-radius:23px;
+        padding:0px 10px 0px 10px;
     }
-    .star{
-        text-align: center;
-    }
-    .con{
-        font-size: 13px;
+    .name{
+        margin: 10px;
     }
     </style>
     <meta charset="UTF-8">
@@ -43,23 +49,28 @@
             position: cityhall
         });
 
-    var contentString = [
-        '<div class="iw_inner">',
-        '   <h3 class="h3">  카타르시스  </h3>',
-        '   <p class="con"> 양도 줄었고 기존에 있던 메뉴들이 대부분 사라짐</p>',
-        '   <p class="star"> 평점 : 4.3</p>',
-        '</div>'
-    ].join('');
+    // var contentString = [
+    //     '<div class="iw_inner">',
+    //     '   <h3 class="h3">  title  </h3>',
+    //     '   <p class="con"> 양도 줄었고 기존에 있던 메뉴들이 대부분 사라짐</p>',
+    //     '   <p class="star"> 평점 : 4.3</p>',
+    //     '</div>'
+    // ].join('');
     var infowindow = new naver.maps.InfoWindow({
-        content: contentString,
+        content: '<span class="info">' +
+            '<h3 class="name">카타르시스</h3>' +
+            '<p class="text">맛 좋더라 캬아아</p>' +
+            '' +
+            '' +
+            '</span>',
         maxWidth: 200,
-        backgroundColor: "#eee",
-        borderColor: "#2db400",
-        borderWidth: 3,
+        backgroundColor: "",
+        borderWidth: "",
+        disableAnchor: true,
         anchorSize: new naver.maps.Size(15, 2),
-        anchorSkew: true,
-        anchorColor: "#eee",
-        pixelOffset: new naver.maps.Point(20, -20)
+        anchorSkew: false,
+        anchorColor: "",
+        pixelOffset: new naver.maps.Point(0, -20)
     });
 
     naver.maps.Event.addListener(marker, "click", function(e) {
