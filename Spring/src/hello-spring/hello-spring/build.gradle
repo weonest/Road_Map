@@ -15,7 +15,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'37.29036588350689, 127.03008296102333
 //	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
 	runtimeOnly 'com.h2database:h2'
