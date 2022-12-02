@@ -59,16 +59,6 @@
 <div id="map" style="width:100%;height:900px;"></div>
 
 <script>
-    $(function () {
-        initMap();
-    });
-
-    function initMap() {
-        var map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.3006759, 127.035805),
-            zoom: 10
-        });
-    }
 
     var HOME_PATH = window.HOME_PATH || '.'
 

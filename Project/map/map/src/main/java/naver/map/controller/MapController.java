@@ -30,6 +30,8 @@ public class MapController {
         return "mainMap";
     }
 
+
+
 //    @RequestMapping("/map")
 //    public ModelAndView content() {
 //        List<Map> maps = mapService.findMaps();

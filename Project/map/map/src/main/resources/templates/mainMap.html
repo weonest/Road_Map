@@ -2,13 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>경기요 - 경기대 맛집리스트</title>
+
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=dol835p4ve"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400&display=swap" rel="stylesheet">
     <style>* {
         font-family: 'Noto Sans KR', sans-serif;
     }
-
     .info {
         display: flex;
         background: #FFF;
@@ -16,119 +26,225 @@
         text-align: center;
         line-height: 7px;
         border-style: solid;
-        border-width: 1px;
-        border-color: #f88b3d;
+        border-width: 2px;
+        border-color: #029ade;
         border-radius: 23px;
-        padding: 0px 10px 0px 0px;
-    }
-
-    .lf {
-        width: 20px;
-        height: 20px;
-    }
-
-    .left {
-        width: 30%;
-        width: 30px;
-        padding-top: 50%;
-        padding-left: 20px;
-        background-size: contain;
-        border-radius: 30px;
-        background-image: url("https://velog.velcdn.com/images/weonest/profile/68fc423b-9199-4047-8eb8-c1d98af92a01/image.png");
-        background-repeat: no-repeat;
-        background-position: center;
-        float: left;
+        padding: 0px 10px 0px 10px;
     }
 
     .right {
-        contain: content;
+        text-align: center;
+        font-size: 16px;
         float: right;
     }
+
+    .des {
+        font-size: 14px;
+    }
+    #side{
+        position: relative;
+        z-index: 1;
+    }
+    .map{
+
+    }
     </style>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>경기요 - 경기대 맛집리스트</title>
-    <script type="text/javascript"
-            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=dol835p4ve"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-<div id="map" style="width:100%;height:900px;"></div>
+
+<div id="map" style="width:100%;height:900px;">
+    <div id ="side"><head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                font-family: "Lato", sans-serif;
+            }
+
+            .sidenav {
+                height: 100%;
+                width: 0;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                background-color: #029ade;
+                overflow-x: hidden;
+                transition: 0.5s;
+                padding-top: 60px;
+            }
+
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #ffffff;
+                display: block;
+                transition: 0.3s;
+            }
+
+            .sidenav a:hover {
+                color: #4df804;
+            }
+
+            .sidenav .closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
+            }
+
+            @media screen and (max-height: 450px) {
+                .sidenav {padding-top: 15px;}
+                .sidenav a {font-size: 18px;}
+            }
+        </style>
+    </head>
+        <body>
+
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a class="openSn" onclick="openSn()" href="#">전체목록</a>
+            <a href="#">서울캠퍼스</a>
+            <a href="#">준비중</a>
+            <a href="#">준비중</a>
+        </div>
+
+        <div id="smSidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        </div>
+
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()"><img src="https://cdn-icons-png.flaticon.com/512/9073/9073147.png" height="50" width="50" Menu></span>
+
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
+            }
+
+            function openSn() {
+                document.getElementById("smSidenav").style.width = "250px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+        </script>
+
+        </body></div>
+
+</div>
 
 <script th:inline="javascript">
 
-    let markers = new Array();
-    let infoWindows = new Array();
-    for (let i = 0; i < [[${maps}]].length; i++) {
-        var x = [[${maps}]][i].x;
-        var y = [[${maps}]][i].y;
+    $(document).ready( function() {
 
-        var loc = new naver.maps.LatLng(x, y),
-            map = new naver.maps.Map('map', {
-                center: loc,
-                zoom: 15
-            })
+        $("#side").load("side.html");
+        console.log(1)
+    });
+
+
+    var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(37.3006759, 127.035805),
+        zoom: 16
+    });
+
+    var markers = [],
+        infoWindows = [];
+
+
+    for (let i = 0; i < [[${maps}]].length; i++) {
+        var name = [[${maps}]][i].name;
+        var des = [[${maps}]][i].des;
+        var star = [[${maps}]][i].star;
+        var x = [[${maps}]][i].x;
+        var y = [[${maps}]][i].y
+
+        var contentString = [
+            '<div class="info">' +
+            '<div class="right">' +
+            '<h2>' +
+            '<img src="https://cdn-icons-png.flaticon.com/512/3183/3183463.png" width="20" height="20">' +
+            name,
+            '</h2>' +
+            '<p class="des">' +
+            des,
+            '</p' +
+            '><p>' +
+            '<img src="https://cdn-icons-png.flaticon.com/128/1828/1828884.png" width="12" height="12">' +
+            star,
+            '</p></div>' +
+            '</div>',
+        ].join('');
 
         var marker = new naver.maps.Marker({
             map: map,
-            position: new naver.maps.LatLng(x, y),
+            position: new naver.maps.LatLng(x, y)
+        })
+        var infowindow = new naver.maps.InfoWindow({
+            content:
+            contentString,
+            // // maxWidth: 200,
+            backgroundColor: "",
+            borderWidth: "",
+            disableAnchor: true,
+            anchorSkew: false,
+            anchorColor: "",
         });
+        markers.push(marker);
+        infoWindows.push(infowindow)
+    }
+    ;
+
+    naver.maps.Event.addListener(map, 'idle', function () {
+        updateMarkers(map, markers);
+    });
+
+    function updateMarkers(map, markers) {
+        var mapBoounds = map.getBounds();
+        var marker, position;
+
+        for (var i = 0; i < markers.length; i++) {
+
+            marker = markers[i]
+            position = marker.getPosition();
+
+            if (mapBoounds.hasLatLng(position)) {
+                showMarker(map, marker);
+            } else {
+                hideMarker(map, marker);
+            }
+        }
     }
 
+    function showMarker(map, marker) {
 
-    <!--    var mapOptions = {-->
-    <!--        center: new naver.maps.LatLng(37.3006759, 127.035805),-->
-    <!--        zoom: 10-->
-    <!--    };-->
+        if (marker.setMap()) return;
+        marker.setMap(map);
+    }
 
-    // var k = new naver.maps.Map('map', mapOptions);
-    // // var HOME_PATH = window.HOME_PATH || '.'
-    // var mat = new naver.maps.LatLng(37.3006759, 127.035805),
-    //     map = new naver.maps.Map('map', {
-    //         center: mat,
-    //         zoom: 15
-    //     }),
-    //     marker = new naver.maps.Marker({
-    //         map: map,
-    //         position: mat
-    //     });
+    function hideMarker(map, marker) {
 
-    // var contentString = [
-    //     '<div class="iw_inner">',
-    //     '   <h3 class="h3">  title  </h3>',
-    //     '   <p class="con"> 양도 줄었고 기존에 있던 메뉴들이 대부분 사라짐</p>',
-    //     '   <p class="star"> 평점 : 4.3</p>',
-    //     '</div>'
-    // ].join('');
-    // var infowindow = new naver.maps.InfoWindow({
-    //     content:
-    //         '<div class="info">' +
-    //         // '<img src="turtle.png" width="20" height="20">' +
-    //         '<div class="left lf">' +
-    //         '</div>' +
-    //         '<div class="right"><h3>카타르시스ddd</h3><p>이거 맛좋네ddddddddd</p><p>평점:4.5</p></div>' +
-    //         '</div>',
-    //     // maxWidth: 200,
-    //     backgroundColor: "",
-    //     borderWidth: "",
-    //     disableAnchor: true,
-    //     anchorSize: new naver.maps.Size(15, 2),
-    //     anchorSkew: false,
-    //     anchorColor: "",
-    //     pixelOffset: new naver.maps.Point(0, -20)
-    // });
-    //
-    // naver.maps.Event.addListener(marker, "click", function (e) {
-    //     if (infowindow.getMap()) {
-    //         infowindow.close();
-    //     } else {
-    //         infowindow.open(map, marker);
-    //     }
-    // });
+        if (!marker.setMap()) return;
+        mark.setMap(null);
+    }
+
+    function getClickHandler(seq) {
+        return function (e) {
+            var marker = markers[seq],
+                infoWindow = infoWindows[seq];
+
+            if (infoWindow.getMap()) {
+                infoWindow.close();
+            } else {
+                infoWindow.open(map, marker);
+            }
+        }
+    }
+
+    for (var i = 0, ii = markers.length; i < ii; i++) {
+        naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+    }
+
 
 </script>
 </body>
