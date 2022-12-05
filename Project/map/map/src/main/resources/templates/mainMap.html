@@ -111,7 +111,8 @@
         </div>
 
         <div id="smSidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeSn()">&times;</a>
+
         </div>
 
         <span style="font-size:30px;cursor:pointer" onclick="openNav()"><img src="https://cdn-icons-png.flaticon.com/512/9073/9073147.png" height="50" width="50" Menu></span>
@@ -122,11 +123,15 @@
             }
 
             function openSn() {
-                document.getElementById("smSidenav").style.width = "250px";
+                document.getElementById("smSidenav").style.width = "500px";
             }
 
             function closeNav() {
                 document.getElementById("mySidenav").style.width = "0";
+            }
+
+            function closeSn() {
+                document.getElementById("smSidenav").style.width = "0";
             }
             // 네비게이션 다듬기
             
@@ -218,6 +223,10 @@
         }
     }
 
+    naver.maps.Event.addListener(markers, 'click', (e) => {
+        map.panTo(e.coord);
+    });
+
     function showMarker(map, marker) {
 
         if (marker.setMap()) return;
@@ -240,6 +249,9 @@
             } else {
                 infoWindow.open(map, marker);
             }
+            console.log(coord);
+
+
         }
     }
 
