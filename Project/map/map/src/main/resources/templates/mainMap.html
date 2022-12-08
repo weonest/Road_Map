@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>경기요 - 경기대 맛집리스트</title>
 
@@ -19,6 +20,7 @@
     <style>* {
         font-family: 'Noto Sans KR', sans-serif;
     }
+
     .info {
         display: flex;
         background: #FFF;
@@ -41,65 +43,83 @@
     .des {
         font-size: 14px;
     }
-    #side{
+
+    #side {
         position: relative;
         z-index: 1;
     }
-    .map{
 
-    }
     </style>
 </head>
 <body>
 
 <div id="map" style="width:100%;height:900px;">
-    <div id ="side"><head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            body {
-                font-family: "Lato", sans-serif;
-            }
+    <div id="side">
+        <head>
+            <style>
+                body {
+                    font-family: "Lato", sans-serif;
+                }
 
-            .sidenav {
-                height: 100%;
-                width: 0;
-                position: fixed;
-                z-index: 1;
-                top: 0;
-                left: 0;
-                background-color: #029ade;
-                overflow-x: hidden;
-                transition: 0.5s;
-                padding-top: 60px;
-            }
+                .sidenav {
+                    height: 100%;
+                    width: 0;
+                    position: fixed;
+                    z-index: 1;
+                    top: 0;
+                    left: 0;
+                    background-color: #029ade;
+                    overflow-x: hidden;
+                    transition: 0.5s;
+                    padding-top: 60px;
+                }
 
-            .sidenav a {
-                padding: 8px 8px 8px 32px;
-                text-decoration: none;
-                font-size: 25px;
-                color: #ffffff;
-                display: block;
-                transition: 0.3s;
-            }
+                .sidenav::-webkit-scrollbar {
+                    display: none;
+                }
 
-            .sidenav a:hover {
-                color: #4df804;
-            }
+                .sidenav a {
+                    padding: 8px 8px 8px 32px;
+                    text-decoration: none;
+                    font-size: 25px;
+                    color: #ffffff;
+                    display: block;
+                    transition: 0.3s;
+                }
 
-            .sidenav .closebtn {
-                position: absolute;
-                top: 0;
-                right: 25px;
-                font-size: 36px;
-                margin-left: 50px;
-            }
+                .sidenav a:hover {
+                    color: #4df804;
+                }
 
-            @media screen and (max-height: 450px) {
-                .sidenav {padding-top: 15px;}
-                .sidenav a {font-size: 18px;}
-            }
-        </style>
-    </head>
+                .smP{
+                    margin: 0px;
+                    padding: 0px 8px 0px 32px;
+                    text-decoration: none;
+                    font-size: 25px;
+                    color: #ffffff;
+                    display: block;
+                    transition: 0.3s;
+                }
+
+                .sidenav .closebtn {
+                    position: absolute;
+                    top: 0;
+                    right: 25px;
+                    font-size: 36px;
+                    margin-left: 50px;
+                }
+
+                @media screen and (max-height: 450px) {
+                    .sidenav {
+                        padding-top: 15px;
+                    }
+
+                    .sidenav a {
+                        font-size: 18px;
+                    }
+                }
+            </style>
+        </head>
         <body>
 
         <div id="mySidenav" class="sidenav">
@@ -112,42 +132,32 @@
 
         <div id="smSidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeSn()">&times;</a>
+            <script th:inline="javascript">
+                for (var i = 0; i < [[${maps}]].length; i++) {
+                    document.write('<a href="#" onclick="getClickHandler()">' +
+                        '<img src="https://cdn-icons-png.flaticon.com/128/2276/2276931.png" width="20px">' +
+                        ''+[[${maps}]][i].name+'</a>')
+                    document.write('<p class="smP" href="#" style="font-size: 14px">'+[[${maps}]][i].des+'</p>')
+                    document.write('<p class="smP" href="#" style="font-size: 14px">' +
+                        '<img src="https://cdn-icons-png.flaticon.com/128/1828/1828884.png" width="16">' +
+                        ''+[[${maps}]][i].star+'</p><br>')
+                    if(i == [[${maps}]].length-1){
+                        document.write('<p><br><br><br></p>')
+                    }
+                }
 
+            </script>
         </div>
 
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()"><img src="https://cdn-icons-png.flaticon.com/512/9073/9073147.png" height="50" width="50" Menu></span>
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()"><img
+                src="https://cdn-icons-png.flaticon.com/512/9073/9073147.png" height="50" width="50" Menu></span>
 
-        <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
-            }
-
-            function openSn() {
-                document.getElementById("smSidenav").style.width = "500px";
-            }
-
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-            }
-
-            function closeSn() {
-                document.getElementById("smSidenav").style.width = "0";
-            }
-            // 네비게이션 다듬기
-            
-        </script>
-
-        </body></div>
+        </body>
+    </div>
 
 </div>
 
 <script th:inline="javascript">
-
-    $(document).ready( function() {
-
-        $("#side").load("side.html");
-        console.log(1)
-    });
 
 
     var map = new naver.maps.Map('map', {
@@ -182,6 +192,14 @@
             '</p></div>' +
             '</div>',
         ].join('');
+
+        var sideString = [
+            '<div class="sideSt">' +
+            name + '<br>'  +
+            des + '<br>' +
+            star +
+            '</div>'
+            ].join('');
 
         var marker = new naver.maps.Marker({
             map: map,
@@ -223,9 +241,6 @@
         }
     }
 
-    naver.maps.Event.addListener(markers, 'click', (e) => {
-        map.panTo(e.coord);
-    });
 
     function showMarker(map, marker) {
 
@@ -249,8 +264,9 @@
             } else {
                 infoWindow.open(map, marker);
             }
-            console.log(coord);
 
+            var pos = marker.getPosition();
+            map.panTo(pos);
 
         }
     }
@@ -259,6 +275,21 @@
         naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
     }
 
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function openSn() {
+        document.getElementById("smSidenav").style.width = "300px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function closeSn() {
+        document.getElementById("smSidenav").style.width = "0";
+    }
 
 </script>
 </body>
