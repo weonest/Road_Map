@@ -24,7 +24,9 @@
 - API
   - Naver MAP API
 
-홈페이지 :[경기요 - 경기대 맛집리스트](http://3.39.29.226:8080/map)
+홈페이지 :
+
+[경기요 - 경기대 맛집리스트](http://3.39.29.226:8080/map)
 
 GitHub Repo : https://github.com/weonest/KguM.git
 
@@ -34,8 +36,6 @@ GitHub Repo : https://github.com/weonest/KguM.git
 
 또한, 이전까지 진행했던 프로젝트들은 배포단계까지는 이루어지지 않는 연습용 프로젝트였기 때문에 실제로 배포까지 가능한 나름의 기능을 갖춘 프로젝트를 만들어 보고 싶었습니다. 이를 만들어가는 과정에서 겪는 시행착오를 통해 더욱 성장할 수 있을 거란 확신도 있었습니다.
 
-
-
 ## 개발 환경 구성
 
 본격적인 프로젝트를 진행하기에 앞서 Window 10과 Mac 두 가지 OS를 모두 사용하며 개발 공부를 하고 있었기 때문에 두 가지 환경을 넘나들며 개발할 수 있는 환경을 만드는 것이 중요하다고 생각하였습니다. 이를 위해 이전에 공부했었던 Docker를 활용하면 좋지 않을까? 라는 생각을 하여 Docker를 통해 Mysql DB를 관리하는 환경을 만들었습니다.
@@ -44,9 +44,9 @@ GitHub Repo : https://github.com/weonest/KguM.git
 
 지금 생각해보면 굳이 Docker를 이용할 필요 없이 DB의 Dump를 만들어 옮겨가며 작업을 했었어도 됐겠지만, 당시에는 Dump를 만든다는 개념 자체를 몰랐으며 아직 개발에 대한 이해도가 낮았기 때문에 알고 있는 지식들로 직접 부딪쳐 가며 배워보자! 라는 다소 무식한? 방법으로 프로젝트를 진행했습니다.
 
-시간이 흘러 프로젝트 후반부에서 배포 단계를 공부하면서 RDS (Relational Database Service)를 알게 돼어 Docker가 아닌 RDS를 적용하여 DB를 관리할 수 있도록 하였습니다.
+RDS 사용 이전까지 Docker 사용에서 한 가지 큰 문제점이 있었는데, Docker 컨테이너 내부의 Guest OS에서 `vim`을 사용하지 못한다는 것이었습니다. Guest OS가 Oracle Linux Server로 설정되어 있었는데 Oracle Linux Server 에서 기본으로 제공하는 `yum` 외에도 `apt-get, dpkg, dnf` 등 모든 기능들이 작동하지 않아 `vim`을 다운받을 수 없었습니다. 이유는 잘 모르겠으나 이러한 오류로 인해 mysql 설정 파일인 my.cnf 등을 수정할 수가 없어 DB로의 외부 IP접속을 허용할 수 없다는 것이었습니다.
 
-
+이는 배포 단계에서도 EC2의 탄력적 IP가 Docker 컨테이너 내부로 접속할 수 없음을 의미하기 때문에 시간이 흘러 프로젝트 후반부에서 배포 단계를 공부하면서 RDS (Relational Database Service)를 알게 돼어 Docker가 아닌 RDS를 적용하여 DB를 관리할 수 있도록 하였습니다.
 
 ## 1. DB
 
@@ -56,7 +56,7 @@ GitHub Repo : https://github.com/weonest/KguM.git
 
 좌표는 Google Map을 통해 수집하였으며, 컬럼명 camp는 수원캠퍼스(0), 서울캠퍼스(1)을 나타냅니다. 좌표 적용에 있어서 Mysql 상의 좌표값이 float의 유효숫자 10자리를 초과하여 반올림이 적용돼고 이때문에 의도치 않은 곳에 좌표 마커가 찍히는 문제점이 있었습니다. 이는 double을 사용하거나 float 표현 범위를 직접 지정해주는 방법으로 해결이 가능했습니다.
 
-
+WorkBench를 통해 RDS에 직접 접속하는 것에서 문제가 발생한적이 있었는데, 이는 RDS 설정에서 보안그룹 인바운드 규칙을 편집해 주는 것으로 EC2의 탄력적 IP 뿐만아니라 제 로컬 IP도 접속 가능하도록 하였습니다.
 
 ## 2. 프로젝트 BackEnd
 
@@ -115,8 +115,6 @@ public class MapController {
 
 Controller에서는 전체리스트인 `maps`와 수원, 서울캠퍼스의 리스트인 `suwons`, `seouls`를 Model에 더해주도록 하였습니다.
 
-
-
 ```java
 //Repository
 public class JpaMapRepository implements MapRepository {
@@ -145,8 +143,6 @@ public class JpaMapRepository implements MapRepository {
 
 Repository에서는 JPA를 통해 MapRepository 인터페이스를 오버라이드하여 `getCampus`메소드와 `findAll` 메소드를 만들었습니다. `getCampus` 메소드는 `camp`변수를 입력받아 DB 속 맛집이 위치한 캠퍼스가 수원(0)인지 서울(1)인지 파악한 후 결과값을 List형태로 반환합니다.
 
-
-
 ```java
 //Service
 @Transactional
@@ -173,8 +169,6 @@ public class MapService {
 ```
 
 Service에서는 Controller에서 사용될 세 가지 메소드를 등록해두었습니다. 위 세 가지 메소드들은 Repository에서 Override한 메소드들을 통해 동작합니다.
-
-
 
 ## 3. 프로젝트 FrontEnd
 
@@ -295,8 +289,24 @@ var markers = [],
 
 반복문의 마지막 단계에서 입력된 `marker` 값과 `infowindow` 값을 `markers, infoWindows` 배열에 담아준 후에 뒤에서 반복문을 통해 모든 값에 메소드 기능들이 적용될 수 있도록 하였습니다. 적용시킬 메소드로는 `updateMarkers`, `showMarker`, `hideMarker`, `getClickHandler` 를 만들었으며 이는 네이버 예제를 활용해 만들었기 때문에 여기서는 다루지 않도록 하겠습니다.
 
-
-
 ## 4. 배포
 
-배포는 AWS의 EC2를 통해 완료하였습니다. 처음에는 Netlify라는 애플리케이션을 통해 배포할 생각이었는데, 서버에서 데이터를 받는 동적 사이트 배포는 불가능하다고 하여 EC2로 변경하였습니다.
+애플리케이션의 배포는 AWS의 EC2를 통해 완료하였습니다. 처음에는 Netlify라는 애플리케이션을 통해 배포할 생각이었는데, 서버에서 데이터를 받는 동적 사이트 배포는 불가능하다고 하여 EC2로 변경하였습니다.
+
+배포 과정에서 겪은 가장 큰 난관은 터미널에서 프로젝트 빌드시 DB와 연결되지 못하던 오류였습니다. 이는 위에서도 다뤘듯이 Docker 컨테이너 내부로 외부 IP접속 불가 문제였기에 RDS로 변경하는 것으로 해결할 수 있었습니다.
+
+EC2 사용에도 어려움이 많았지만, 여러 EC2 기술 자료들을 공부하여 기본적인 설정부터 시작하여 백그라운드 실행을 통해 터미널 종료시에도 계속 동작하도록 만들기까지 성공적인 배포를 마칠 수 있었습니다.
+
+### 시연장면 (웹, 모바일)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/76a0e07f-a158-40bc-a7a6-652f989ceeac/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/95e56df9-b844-4c14-81ee-fef6eab384fe/Untitled.png)
+
+## 5. 마치며
+
+이번 프로젝트는 기존에 배운 지식들을 나의 것으로 만들기위해 무모하게 부딪친 프로젝트이다보니 예상했던 것 보다 개발 기간이 길어지게 되었습니다. 하지만, 정말 많은 오류들을 직접 경험해보고 해결함으로써 프로젝트 진행 이전과는 비교도 안 될 정도로 큰 성장을 이루어 낸 것 같아 만족스러운 경험이었습니다. 배포 이후에 기대 이상으로 많은 사람들의 격려와 응원 그리고 피드백 등을 받을 수 있었던 것도 개발자란 꿈을 향해 달려가는 저에게 큰 동기 부여가 되었습니다.
+
+아직 수정해야 할 부분도 많고 프로젝트를 계획했을 시에 구상했던 기능들 (검색, 공감하기 등) 이 모두 완성된 것은 아니지만, 표면적인 이용에는 문제가 없을 정도의 구현은 끝냈다고 생각하기 때문에 이번 프로젝트는 여기서 잠시 쉬어가도록 하겠습니다.
+
+이제는 프로젝트를 진행하며 느꼈던 부족한 점들 서버와의 통신 방법, 네트워크, JPA 등을 제대로 공부해 보는 시간을 갖도록 하겠습니다.
