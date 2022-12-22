@@ -18,11 +18,14 @@
     - JPA
     - thymeleaf
 - DB
-  - MySQL(MyBatis)
+  - MySQL
 - OS
   - Windows 10 & Mac
 - API
   - Naver MAP API
+- Server
+  - AWS (EC2, RDS)
+  
 
 홈페이지 :
 
