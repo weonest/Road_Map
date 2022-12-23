@@ -120,7 +120,7 @@ REST 서버는 다중 계층으로 구성될 수 있으며, 보안, 로드 밸�
 
 ### TDD란 무엇인가
 
-Test-Driven Development는 매우 짧은 개발 사이클의 반복에 의존하는 소프트웨어 개발 프로세스이다. 우선 개발자는 요구되는 새로운 기능에 대한 자동화된 테스트케이스를 작성하고 **해당 테스트를 통과하는 가장 간단한 코드**를 작성한다. 일단 테스트 통과하는 코드를 작성하고 상황에 맞게 리팩토링 과정을 거치는 것이다. 말 그대로 테스트 코드가 작성을 주도하는 개발방식.
+Test-Driven Development는 매우 짧은 개발 사이클의 반복에 의존하는 소프트웨어 개발 프로세스이다. 우선 개발자는 요구되는 새로운 기능에 대한 자동화된 테스트케이스를 작성하고 해당 테스트를 통과하는 가장 간단한 코드를 작성한다. 일단 테스트 통과하는 코드를 작성하고 상황에 맞게 리팩토링 과정을 거치는 것이다. 말 그대로 테스트 코드가 작성을 주도하는 개발방식.
 
 ### Add a test
 
@@ -147,3 +147,204 @@ Q. 코드 생산성에 문제가 있지는 않나?
 Q. 테스트 코드를 작성하기가 쉬운가?
 
 이 또한 TDD라는 개발 방식을 적용하기에 큰 걸림돌이 된다. 진입 장벽이 존재하는 것이다. 어떠한 부분을 테스트 해야할 지, 어떻게 테스트해야할 지, 여러 테스트 프레임워크 중 어떤 것이 우리의 서비스와 맞는지 등 여러 부분들에 대한 학습이 필요하고 익숙해지는데에도 시간이 걸린다. 팀에서 한 명만 익숙해진다고 해결될 일이 아니다. 개발은 팀 단위로 수행되기 때문에 팀원 전체의 동의가 필요하고 팀원 전체가 익숙해져야 비로소 테스트 코드가 빛을 발하게 된다.
+
+Q. 모든 상황에 대해서 테스트 코드를 작성할 수 있는가? 작성해야 하는가?
+
+세상에는 다양한 사용자가 존재하며, 생각지도 못한 예외 케이스가 존재할 수 있다. 만약 테스트를 반드시 해봐야 하는 부분에 있어서 테스트 코드를 작성하는데 어려움이 발생한다면? 이러한 상황에서 주객이 전도하는 상황이 발생할 수 있다. 분명 실제 코드가 더 중심이 되어야 하는데 테스트를 위해서 코드의 구조를 바꿔야 하나? 하는 고민이 생긴다. 또한 발생할 수 있는 상황에 대한 테스트 코드를 작성하기 위해 배보다 배꼽이 더 커지는 경우가 허다하다. 실제 구현 코드보다 방대해진 코드를 관리하는 것도 쉽지만은 않은 일이 된 것이다.
+
+모든 코드에 대해서 테스트 코드를 작성할 수 없으며 작성할 필요도 없다. 또한 테스트 코드를 작성한다고 해서 버그가 발생하지 않는 것도 아니다. 애초에 TDD는 100% coverage와 100% 무결성을 주장하지 않는다.
+
+## Transaction
+
+------
+
+- 데이터베이스의 상태를 변화시키기 위해서 수행하는 작업의 단위
+- 데이터베이스 상태를 변화시킨다는 것은 SQL을 이용하여 데이터베이스에 접근하는 것을 의미 (Select, Insert, Update, Delete)
+- 작업 단위는 질의어 한 문장이 아니라, 기준에 따라 정해짐
+- 트랜잭션 설계를 잘 하는 것이 개발자에게 중요함
+
+### 트랜잭션의 특징
+
+- Atomicity 원자성
+  - **트랜잭션이 데이터베이스에 모두 반영되던가, 아니면 모두 반영되지 않아야 함**
+  - 트랜잭션은 사람이 설계한 논리적인 작업단위로 일처리는 작업 단위별로 이루어져야 데이터가 깨지지 않음
+  - 트랜잭션이 일부만 처리되는 경우 오작동 하더라도 원일을 찾기 힘들어 짐
+  - 오류가 발생하는 경우 전체를 롤백 시키게 작업
+- Consisitency 일관성
+  - 트랜잭션의 작업 **처리 결과가 항상 일관성**이 있어야 한다는 것
+  - 트랜잭션이 진행되는 동안 데이터베이스가 변경되더라도 트랜잭션을 진행하기 위해 참조한 데이터베이스를 기준으로 처리가 완료 되어, 일관성 있는 데이터 확인 가능
+- Isolation 독립성
+  - 둘 이상의 트랜잭션이 동시에 병행 실행되고 있을 경우 어느 하나의 트랜잭션이라도 다른 트랜잭션의 **연산에 끼어들 수 없음**
+  - 하나의 트랜잭션이 완료될 때까지, 다른 트랜잭션이 특정 트랜잭션의 결과를 참조할 수 없음
+- Durability 지속성
+  - 트랜잭션이 성공적으로 완료되었을 경우, **결과는 영구적으로 반영**되어야 함
+
+### 트랜잭션의 Commit, Rollback
+
+- Commit
+
+  - 하나의 트랜잭션이 성공적으로 끝났고, 데이터베이스가 일관성있는 상태에 있을 때 트랜잭션이 끝났다는 것을 알려주는 연산
+  - 트랜잭션이 로그에 저장되고, 이후 Rollback을 할 수 있도록 하는 중간 단위가 됨
+
+- Rollback
+
+  - 하나의 트랜잭션 처리가 비정상적으로 종료되어 트랜잭션의 원자성이 깨진 경우, 트랜잭션을 처음부터 다시 시작하거나, 트랜잭션의 부분적으로만 연산된 결과를 다시 취소 시킴
+  - 트랜잭션 처리된 단위대로 Rollback 진행 가능
+
+  https://www.safetynews.co.kr/news/articleView.html?idxno=211589
+
+  https://www.fnnews.com/news/202201270740368227
+
+  https://gangneungpass.co.kr/
+
+## 함수형 프로그래밍
+
+------
+
+함수형 프로그래밍의 가장 큰 특징 두 가지는 `immutable data`와 `first class citizen으로서의 function`이다.
+
+### immutable vs mutable
+
+`immutable` 이란 말 그대로 변경 불가능함을 의미한다. `immutable`객체는 객체가 가지고 있는 값을 변경할 수 없는 객체를 의미하여 값이 변경될 경우, 새로운 객체를 생성하고 변경된 값을 주입하여 반환해야 한다. 이와는 달리 `mutable` 객체는 해당 객체의 값이 변경될 경우 값을 변경한다.
+
+```java
+String str = Hello World
+
+public void foo(str) {
+	str.substring(0,2);
+}
+```
+
+foo 함수를 동작시키더라도 원본값 (str) 이 변하지 않음을 통해 불변성을 알 수 있음. 이는 str의 값을 그대로 복사하여 함수에게 넘겨주는 방식 (값에 의한 호출)이기 때문.
+
+### fisrt-class-citizen
+
+함수형 프로그래밍 패러다임을 따르고 있는 언어에서의 함수는 **일급객체로** 간주된다. 일급 객체라 함은 다음의 3가지 조건을 충족한다고 할 수 있다.
+
+- 변수나 데이터에 할당 할 수 있어야 한다.
+- 객체의 인자로 넘길 수 있어야 한다.
+- 객체의 리턴값으로 리턴 할 수 있어야 한다.
+
+하지만 Java는 함수형 프로그래밍 패러다임을 따르고 있으면서도 Java의 함수는 일급객체로 분류될 수 없는데, 이를 예시를 통해 알아보자.
+
+1. 변수나 데이터에 할당 할 수 있어야 한다.
+
+```java
+public class java {
+	public static void test() {
+			System.out.print("java");
+		}
+	public static void main(String[] args) {
+			System.out.print("java");
+		//		Object a = test; 불가능
+		//    Test test = new Test(); 선언 후 가능
+		}
+}
+```
+
+Java는 `*test*` 함수를 변수 `a`에 할당 할 수 없다.
+
+1. 객체의 인자로 넘길 수 있어야 한다.
+
+```java
+public class Main {
+ 
+    public static void hello(){
+        System.out.println("Hello World");
+    }
+    
+    public static void print(Object func) {
+    	func();
+    }
+ 
+    public static void main(String[] args) {
+		print((Object) hello) // !! static 메서드를 함수 매개변수로 전달 불가능
+    }
+}
+// JS에서는 가능
+function call(func, name) {
+  func(name);
+}
+
+function hi(name) {
+  console.log(`Hi, ${name}!`);
+}
+
+call(hi, "Thomas");
+
+// call 함수는 매개변수로 함수, 이름을 받는다.
+// hi라는 함수를 선언했고, 이 함수는 매개변수로 이름을 받는다.
+// call 함수를 호출하면서, 인수로 hi함수와 "Thomas"라는 이름을 인수로 전달한다.
+// 이 때 주의할 점으로, hi()에서 ()를 제외하고 전달해야 한다.
+// hi()는 함수를 즉시 실행하는 명령으로, hi()를 전달하면 의도와 다른 hi함수의 return값이 전달되게 된다.
+```
+
+1. 객체의 리턴값으로 리턴 할 수 있어야 한다.
+
+```java
+function hello() {
+  function hi() {
+    console.log("hi");
+  }
+  return hi;
+}
+
+const a = hello();
+a();
+
+// 다음과 같이 hello 함수 내에서 hi라는 함수를 만들고, hi함수를 반환할 수 있다.
+// hello 함수를 실행한 결과, hi함수가 반환되는데 이 리턴값을 a라는 변수에 넣어준다.
+// 그리고 a()로 hi함수를 실행할 수 있다.
+```
+
+역시 Java 메소드의 리턴값으로 메소드 자체를 반환 하는 행위는 불가능하다. 반면에 JS는 클로저 기법을 통해 구성할 수 있다.
+
+Java는 이러한 단점을 람다 표현식 (Lambda Expression)을 통해 보완하고 있다. Java의 **람다식** 혹은 **익명 클래스**는 변수나 매개변수에 할당 할 수 있고, 리턴 값으로도 사용할 수 있기 때문에 일급 객체의 요건을 충족한다.
+
+```java
+**// 변수나 데이터에 담을 수 있다.**
+import java.util.function.Consumer;
+
+public class Main {
+    public static void main(String[] args) {
+        Consumer<String> c = (t) -> System.out.println(t); // 람다식을 인터페이스 타입 변수에 할당
+        c.accept("Hello World");
+    }
+}
+
+**// 함수의 파라미터로 전달 할 수 있다.**
+import java.util.function.Consumer;
+
+public class Main {
+    // 메소드 매개변수로 람다 함수를 전달
+    public static void print(Consumer<String> c, String str) {
+        c.accept(str);
+    }
+
+    public static void main(String[] args) {
+        print((t) -> System.out.println(t) ,"Hello World");
+    }
+}
+
+**// 함수의 리턴값으로 사용 할 수 있어야 한다.**
+public class Main {
+
+    public static Object hello(){
+        System.out.println("Hello World");
+        return new Object() { // 익명 클래스 객체를 리턴값으로
+            public String toString() {
+                return "Hello World 22";
+            }
+        };
+    }
+
+    public static void main(String[] args) {
+        Object obj = hello();
+        System.out.println(obj.toString());
+    }
+}
+```
+
+### Reactive Programming
+
+반응형 프로그래밍은 선언형 프로그래밍 (declarative programming) 이라고도 불리며, 명령형 프로그래밍 (imperative programming)의 반대말이다. 또 함수형 프로그래밍 패러다임을 활용하는 것을 말한다. 반응형 프로그래밍은 기본적으로 모든 것을 스트림으로 본다. 스트림이란 값들의 집합으로 볼 수 있으며 제공되는 함수형 메소드를 통해 데이터를 immutable 하게 관리할 수 있다.
