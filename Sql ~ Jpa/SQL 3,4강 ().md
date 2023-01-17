@@ -1,4 +1,4 @@
-# SQL 3강 ()
+# SQL 3,4강 ()
 
 ## JOIN (테이블 병합)
 
@@ -70,4 +70,72 @@ select e.first_name, d.department_name from employees e, departments d where e.d
 
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/69750617-86c7-4963-a86f-f9b1a16d73b6/Untitled.png)
 
-d
+# 4강
+
+```sql
+#실습 
+show tables;
+
+select * from emp;
+
+select * from salgrade;
+
+# 사원의 이름과 사원의 급여 등급을 출력하시오
+
+select e.ename, s.grade from emp e, salgrade s where e.sal >= s.losal and e.sal <= s.hisal order by s.grade ASC;
+
+select * from emp e, salgrade s where e.sal >= s.losal and e.sal <= s.hisal;
+
+select e.ename, s.grade from emp e, salgrade s where e.sal between s.losal and s.hisal order by s.grade ASC;
+
+select * from departments; # 27건
+
+select * from locations; # 23건
+
+select * from departments natural join locations; # 27건. 즉, 모든 부서는 location 값이 있다는 것
+
+select * from departments, locations where departments.location_id = locations.location_id; # 위와 같은 값
+
+# natural join 사용시 주의사항
+select * from employees e, departments d where e.department_id = d.department_id; 
+select * from employees natural join departments; # 같은 컬럼명이 있다면 이상한 결과를 도출할 수도 있다.
+select * from employees join departments using(department_id);
+select * from employees e join departments d on(e.department_id = d.department_id);
+select * from employees e join departments d where(e.department_id = d.department_id); # where 도 가능
+
+select * from employees where department_id is null;
+
+# 부서가 없을 경우도 사원의 이름과 부서를 출력
+select * from employees left outer join departments using(department_id); #outer는 생략 가능
+
+select employee_id, first_name, manager_id from employees;
+
+# 사원의 이름과 사원의 상사의 이름을 출력
+select employee_id as "상사의 id", first_name as "상사의 이름" from employees where employee_id = 100;
+
+select * from employees e, employees m where e.manager_id = m.employee_id;
+
+select e.first_name as "직원 이름", m.first_name as "상사 이름" from employees e, employees m where e.manager_id = m.employee_id;
+
+select e.first_name as "직원 이름", m.first_name as "상사 이름" from employees e join employees m on(e.manager_id = m.employee_id);
+
+select e.first_name as "직원 이름", m.first_name as "상사 이름" from employees e left join employees m on(e.manager_id = m.employee_id);
+```
+
+- `natural join` 은 같은 컬럼명이 있는 경우 옳치 않은 결과가 도출될 수도 있기 때문에 지양하자
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/85e5c34f-4e5b-4df2-8b79-11d97b6156a4/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e506894f-8d64-4199-9028-a599a57c9347/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/97a84389-e08f-4dbf-9431-19cd62ca1f6f/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f7a2a8cc-f10c-4d24-b686-3a084b4d1154/Untitled.png)
+
+- 실습 DB에서는 같은 컬럼명이 없기에 주의
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/459ea4ff-a6de-4f21-aa26-432c887b68a3/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5565d7a1-b6aa-4124-9bac-ba70dbac78e9/Untitled.png)
+
+- 셀프 조인은 반드시 `alias` 사용해야함
