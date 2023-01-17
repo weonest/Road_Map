@@ -1,4 +1,4 @@
-# SQL (Group by 까지)
+# SQL 1,2강 (Group by 까지)
 
 - 
 
@@ -100,6 +100,8 @@
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/61c7a64c-9b9d-4410-adbc-f6692a6358cc/Untitled.png)
 
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1b3a8dc1-9d2d-4146-b2b7-900400ab58d9/Untitled.png)
+
+- `CONCAT`은 파라미터를 합쳐서 출력
 
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8819818a-614d-4c4d-8322-b6323a7788e0/Untitled.png)
 
