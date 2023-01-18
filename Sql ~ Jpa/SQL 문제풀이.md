@@ -124,7 +124,44 @@ from emp e, salgrade where e.sal =
 ![https://velog.velcdn.com/images/oeckikek/post/5f8c9e16-446f-4beb-b549-5b7d9d000431/image.png](https://velog.velcdn.com/images/oeckikek/post/5f8c9e16-446f-4beb-b549-5b7d9d000431/image.png)
 
 ```sql
+select ename as"직원명", format(ifnull(concat(sal + comm), sal),0) as "급여" 
+from emp where date_format(HIREDATE, '%Y') = '1981' order by sal + comm desc;
+
+# comm이 null인 경우는 sal + comm 에서 null 값이 합쳐져 정렬이 제대로 안됨
+# comm이 null인 값에 0을 대입하여 해결
+```
+
+## 문제 6
+
+![https://velog.velcdn.com/images/oeckikek/post/b7d89cdc-1abb-42d6-be42-b89fce2f0276/image.png](https://velog.velcdn.com/images/oeckikek/post/b7d89cdc-1abb-42d6-be42-b89fce2f0276/image.png)
+
+```sql
+select ename as "직원명", hiredate as "입사년원일", case when year(hiredate) = '1980' then 'A'
+when year(hiredate) = '1981' then 'B'
+when year(hiredate) = '1982' then 'C'
+when year(hiredate) = '1983' then 'D' end as "그룹" 
+from emp order by hiredate ASC;
+
+# CASE문 사용시 when then 절의 구분은 ,를 사용하지 않고 띄어쓰기로 구분한다
+```
+
+## 문제 7
+
+![https://velog.velcdn.com/images/oeckikek/post/687d274d-3823-4819-9180-913b335dbc4d/image.png](https://velog.velcdn.com/images/oeckikek/post/687d274d-3823-4819-9180-913b335dbc4d/image.png)
+
+```sql
+select e.empno as "사원 사번", e.ename as "사원 이름", m.empno as "관리자 사번", m.ename as "관리자 이름"
+from emp e join emp m on (e.mgr = m.empno);
+
+# 셀프 조인은 alias로 구분한다
+```
+
+## 문제 8
+
+![https://velog.velcdn.com/images/oeckikek/post/030e46ef-3996-4045-813c-2962e7f7bd4f/image.png](https://velog.velcdn.com/images/oeckikek/post/030e46ef-3996-4045-813c-2962e7f7bd4f/image.png)
+
+```sql
 
 ```
 
-ㅇ
+d
