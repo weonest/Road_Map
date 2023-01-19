@@ -161,7 +161,16 @@ from emp e join emp m on (e.mgr = m.empno);
 ![https://velog.velcdn.com/images/oeckikek/post/030e46ef-3996-4045-813c-2962e7f7bd4f/image.png](https://velog.velcdn.com/images/oeckikek/post/030e46ef-3996-4045-813c-2962e7f7bd4f/image.png)
 
 ```sql
-
+select e.empno, e.ename, e.deptno from emp e 
+join dept d where e.deptno = d.deptno and d.loc = "chicago";
 ```
 
-d
+### 문제 9
+
+![https://velog.velcdn.com/images/oeckikek/post/c1983ce9-b4b8-4068-bcb8-11181ff3695f/image.png](https://velog.velcdn.com/images/oeckikek/post/c1983ce9-b4b8-4068-bcb8-11181ff3695f/image.png)
+
+```sql
+select e.ename, e.sal from emp e where e.sal > (select max(sal) from emp where deptno ='30');
+```
+
+ㅇ
