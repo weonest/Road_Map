@@ -35,6 +35,7 @@ public class DemoApplication implements CommandLineRunner {
 //        System.out.println("flag : " + flag);
 
         Role role = roleDao.getRole(1);
+        if(role != null)
         System.out.println(role.getRoleId() + ", " + role.getName());
 
     }

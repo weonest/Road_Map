@@ -27,4 +27,26 @@
 
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/60bb50c8-4f40-4fc7-8e4c-a72d596b6902/Untitled.png)
 
+- Spring 에서는 CommandLineRunner가 구현하고 있는 곳을 main으로 보고 메소드를 실행 시킬 수 있다
+- `@AutoWired`를 통해 Bean 주입
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9874b76f-71f2-4094-8a9d-a9c1fb287e41/Untitled.png)
+
+- 미리 연결을 맺어놓고, 사용자가 커넥션 풀에게 커넥션을 빌려온다
+- 사용 후 커넥션을 될려준다
+  - 동시에 여러 개의 요청을 받아서 커넥션 풀로부터 모든 커넥션을 받아오면 멈추게 된다
+  - 그렇기에 빨리 요청을 처리하고 반환 해줘야 한다. `**close(); !**`
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f80c6cbf-0d0b-41e6-b43d-2e62f7875ff6/Untitled.png)
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c21c1150-3a7c-4e20-b822-3c60dbb19a69/Untitled.png)
+
+- Spring Boot를 공부를 한다는 것은 Servie와 DAO를 만든다는 것
+- 단일 책임의 원칙
+  - 하나의 계층은 하나의 책임만 져야 한다
+- DTO는 한 건의 정보를 담을 수 있는 객체
+- Entity는 DB로부터 정보를 읽어오는 객체
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/184bae54-12db-45bd-b6b3-0a047a3e2872/Untitled.png)
+
 ㅇ
