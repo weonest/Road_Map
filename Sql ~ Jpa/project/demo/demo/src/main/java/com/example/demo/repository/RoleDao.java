@@ -39,6 +39,7 @@ public class RoleDao {
 
         // queryForObject는 1건 또는 0건을 읽어오는 메서드
         // queryForObject(String sql, RowMapper<T> rowMapper, @Nullable Object... args)
+        
 
         try {
             return jdbcTemplate.queryForObject(sql, new RoleRowMapper(), roleId);

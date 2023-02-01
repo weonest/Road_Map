@@ -49,4 +49,14 @@
 
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/184bae54-12db-45bd-b6b3-0a047a3e2872/Untitled.png)
 
-ㅇ
+- RowMapper와 같이 하나의 구현 메소드만 갖고 있는 인퍼테이스를 함수형 인터페이스라고 한다.
+  - 함수형 인터페이스들이 람다식으로 바꿀 수 있는 인터페이스들이다
+
+> **RowMapper**
+>
+> [[Jdbc-Template\] select문 / query() , queryForObject() / RowMapper / 익명클래스, 람다식 , 내부클래스 활용](https://u-it.tistory.com/entry/Spring-JDBC-Jdbc-Template의-select-RowMapperType-과-익명클래스-람다식문법-활용)
+>
+> - RowMapper는 전통방식의 JDBC 코드에서 while문의 범위를 말한다
+> - 이 클래스의 목적은 ResultSet 사용을 편하게 하기 위한 클래스이다
+>
+> +! NamedParameterJdbcTemplate 공부!
