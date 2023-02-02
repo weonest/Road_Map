@@ -27,16 +27,19 @@ public class DemoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        Role role = new Role();
-//        role.setRoleId(3);
-//        role.setName("Role_TEST");
-//        roleDao.addRole(role);
+        Role role = new Role();
+        role.setRoleId(3);
+        role.setName("Role_TEST");
+        roleDao.addRole(role);
 //        boolean flag = roleDao.deleteRole(3);
 //        System.out.println("flag : " + flag);
 
-        Role role = roleDao.getRole(1);
-        if(role != null)
-        System.out.println(role.getRoleId() + ", " + role.getName());
-
+//        Role role = roleDao.getRole(1);
+//        if(role != null)
+//        System.out.println(role.getRoleId() + ", " + role.getName());
+//        List<Role> list = roleDao.getRoles();
+//        for (Role role : list) {
+//            System.out.println(role.getRoleId() + ", " + role.getName());
+//        }
     }
 }
