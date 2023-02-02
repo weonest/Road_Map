@@ -52,14 +52,14 @@ public class RoleDao {
 //        String sql = "delete from role where role_id = ?";
 //        int result = jdbcTemplate.update(sql, roleId);
 //        return result == 1;
-        String sql = "delete from role where role_id = :roleID";
+        String sql = "delete from role where role_id = :roleId";
         SqlParameterSource params = new MapSqlParameterSource("roleId", roleId);
         int result = jdbcTemplate.update(sql, params);
         return result == 1;
     }
 
     public Role getRole(int roleId) {
-        String sql = "select role_id, name from role where role_id = :roleID";
+        String sql = "SELECT role_id, name FROM role WHERE role_id = :roleId";
 
         // queryForObject는 1건 또는 0건을 읽어오는 메서드
         // queryForObject(String sql, RowMapper<T> rowMapper, @Nullable Object... args)
