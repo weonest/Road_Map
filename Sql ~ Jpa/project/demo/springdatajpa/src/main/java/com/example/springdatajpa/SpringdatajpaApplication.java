@@ -38,7 +38,6 @@ public class SpringdatajpaApplication implements CommandLineRunner {
             User user = entityManager.find(User.class, 1);
             System.out.println(user);
             
-            
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
