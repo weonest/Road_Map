@@ -11,15 +11,6 @@ public class User {
     private String email;
     private String name;
     private String password;
-
-    public LocalDateTime getRegdate() {
-        return regdate;
-    }
-
-    public void setRegdate(LocalDateTime regdate) {
-        this.regdate = regdate;
-    }
-
     private LocalDateTime regdate = LocalDateTime.now();
 
     public int getUserId() {
@@ -54,4 +45,11 @@ public class User {
         this.password = password;
     }
 
+    public LocalDateTime getRegdate() {
+        return regdate;
+    }
+
+    public void setRegdate(LocalDateTime regdate) {
+        this.regdate = regdate;
+    }
 }
