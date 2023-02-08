@@ -11,6 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory; // JPA api
 import javax.persistence.EntityTransaction;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class SpringdatajpaApplication implements CommandLineRunner {
@@ -28,25 +31,63 @@ public class SpringdatajpaApplication implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-//        User user = userRepository.findById(2).orElseThrow();
+//        Optional<User> user = userRepository.findByNameAndEmail("겅퀴", "geonhee34@naver.com");
+        // Optional은 .get() 을 해서 가져와 준다
+//        System.out.println(user.get);
 
-//        User user = new User();
-//        user.setName("test2");
-//        user.setPassword("Test2");
-//        user.setEmail("test@naver.com");
-//        userRepository.save(user);
+//        List<User> users = userRepository.findByNameOrEmail("겅퀴", "test@naver.com");
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
+//        List<User> byUserIdBetween = userRepository.findByUserIdBetween(2, 5);
+//        for (User user : byUserIdBetween) {
+//            System.out.println(user);
+//        }
+//        List<User> users = userRepository.findByUserIdLessThan(5);
+//        for( User user : users)
+//            System.out.println(user);
+//        List<User> users = userRepository.findByRegdateBefore(LocalDateTime.now().minusDays(1L));
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
 
-//        저장과 동시에 user의 id값이 궁금한 경우
-//        User saveUser = userRepository.save(userRepository);
-//        System.out.println(saveUser);
+//        List<User> users = userRepository.findByNameLike("백승_");
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
 
-//        userRepository.deleteById(1);
-//        or
-//        User user = userRepository.findById(2).orElseThrow();
-//        userRepository.delete(user);
+//        List<User> users = userRepository.findByNameStartingWith("겅");
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
 
-        User user = userRepository.findById(4).orElseThrow();
-        System.out.println(user);
+//        List<User> users = userRepository.findByNameEndingWith("퀴");
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
+
+//        List<User> users = userRepository.findByOrderByNameAsc();
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
+
+//        List<User> users = userRepository.findByRegdateAfterOrderByNameDesc(LocalDateTime.now().minusDays(1L));
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
+
+//        List<User> users = userRepository.findByNameNot("겅퀴");
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
+        
+        // List는 Collection의 자식이기 때문에 파라미터로 들어갈 수 있다. 상속, 인터페이스 관계
+        // List.of 는 파라미터 내부의 값을 List형태로 반환
+        List<User> users = userRepository.findByUserIdIn(List.of(2, 3));
+        for (User user : users) {
+            System.out.println(user);
+        }
+
 
     }
 }
