@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory; // JPA api
 import javax.persistence.EntityTransaction;
+import javax.transaction.Transactional;
 
 @SpringBootApplication
 public class SpringdatajpaApplication implements CommandLineRunner {
@@ -25,8 +26,26 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
-        User user = userRepository.findById(2).orElseThrow();
+//        User user = userRepository.findById(2).orElseThrow();
+
+//        User user = new User();
+//        user.setName("test2");
+//        user.setPassword("Test2");
+//        user.setEmail("test@naver.com");
+//        userRepository.save(user);
+
+//        저장과 동시에 user의 id값이 궁금한 경우
+//        User saveUser = userRepository.save(userRepository);
+//        System.out.println(saveUser);
+
+//        userRepository.deleteById(1);
+//        or
+//        User user = userRepository.findById(2).orElseThrow();
+//        userRepository.delete(user);
+
+        User user = userRepository.findById(4).orElseThrow();
         System.out.println(user);
 
     }
