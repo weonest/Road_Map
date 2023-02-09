@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory; // JPA api
@@ -83,8 +86,16 @@ public class SpringdatajpaApplication implements CommandLineRunner {
         
         // List는 Collection의 자식이기 때문에 파라미터로 들어갈 수 있다. 상속, 인터페이스 관계
         // List.of 는 파라미터 내부의 값을 List형태로 반환
-        List<User> users = userRepository.findByUserIdIn(List.of(2, 3));
-        for (User user : users) {
+//        List<User> users = userRepository.findByUserIdIn(List.of(2, 3));
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
+        
+        /**
+        * 여기 왜 계속 오류가 나냐..
+         **/
+        Page<User> users = userRepository.findBy(PageRequest.of(0, 2, Sort.by(Sort.Direction.DESC, "redgdate")));
+        for (User user : users.getContent()) {
             System.out.println(user);
         }
 

@@ -1,11 +1,12 @@
 package com.example.springdatajpa.repository;
 
 import com.example.springdatajpa.domain.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,4 +58,33 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findByFlagTrue();
     
     List<User> findByFlagFalse();
+
+    // select * from user3
+    Long countBy();
+
+    // select count(*) from user3 where name like = ?
+    Long countByNameLike(String name);
+
+
+    boolean existsByEmail(String name);
+
+    // delete from user3 where name = ?
+    // select 를 먼저 하고 delete를 진행
+    int deleteByName(String name);
+
+    // 중복 삭제
+    // select distinct * from user3 where name = ?
+    List<User> findDistinctByName(String name); // 그닥 의미는 없다? 모든 컬럼이 같아야 의미가 있음
+
+    // select * from user3 limit 2
+    List<User> findFirst2By();
+    List<User> findTop2By();
+
+//    페이징 처리
+    Page<User> findBy(Pageable pageable);
+    Page<User> findByName(String name, Pageable pageable);
+    
+    // Containing은 %를 붙여주지 않아도 like 구절을 사용
+    // Page<Board> findByTitleContainingOrContentContaining(String title, String content, Pageable pageable);
+
 }
