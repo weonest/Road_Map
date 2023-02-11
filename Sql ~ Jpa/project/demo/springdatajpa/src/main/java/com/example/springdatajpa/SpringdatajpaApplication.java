@@ -1,7 +1,9 @@
 package com.example.springdatajpa;
 
+import com.example.springdatajpa.domain.Board;
 import com.example.springdatajpa.domain.Role;
 import com.example.springdatajpa.domain.User;
+import com.example.springdatajpa.repository.BoardRepository;
 import com.example.springdatajpa.repository.RoleRepository;
 import com.example.springdatajpa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +36,21 @@ public class SpringdatajpaApplication implements CommandLineRunner {
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    BoardRepository boardRepository;
+
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        List<User> all = userRepository.findAll(); // select * from user;
-        for (User user : all) {
-            System.out.println(user);
-//            for (Role role : user.getRoles()) { // select from user_role, role where user_id = ?
-//                System.out.println(role);
-//            }
-//            System.out.println("-------------------------");
+        // 1 + N 문제
+        List<Board> all = boardRepository.findAll(); // select * from board
+        for (Board board : all) {
+            System.out.println(board);
+            System.out.println(board.getUser());
+            // board.toString() = board의 user 정보를 가지고 오기 위해서 select * from user
+            // User가 Role과 @ManyToMany로 묶여 있기 때문에 Role도 가져오기 위해 select * from user_role, role를 join한 쿼리도 실행
+            
         }
     }
 }
