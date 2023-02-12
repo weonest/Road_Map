@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "user") // Database 테이블 이름 user3 와 User라는 객체가 맵핑
 @NoArgsConstructor // 기본 생성자가 필요하다. -> 자동 생성?
 @Data
-@ToString
+
 public class User {
     @Id // 이 필드가 Table의 PK
     @Column(name = "user_id")
@@ -41,14 +41,14 @@ public class User {
     Set<Role> roles = new HashSet<>();
     // User 에서는 Role 가지는데, Role에서는 User를 갖지 못하도록 단방향 다대다 관계 맵핑
 
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "userId=" + userId +
-//                ", email='" + email + '\'' +
-//                ", name='" + name + '\'' +
-//                ", password='" + password + '\'' +
-//                ", regdate=" + regdate +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", regdate=" + regdate +
+                '}';
+    }
 }

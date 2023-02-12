@@ -30,8 +30,8 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime regdate;
 
-    @ManyToOne(fetch = FetchType.LAZY)// 게시물 N --- 사용자 1
-    // fetch의 기본값은 EAGER = 무조건 데이터를 가져와라
+    @ManyToOne(fetch = FetchType.EAGER)// 게시물 N --- 사용자 1
+    //EAGER = 무조건 데이터를 가져와라
     @JoinColumn(name = "user_id")
     private User user;
 

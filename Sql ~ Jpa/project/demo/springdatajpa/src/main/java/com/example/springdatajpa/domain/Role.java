@@ -23,7 +23,7 @@ public class Role {
     private String name;
 
     @Override                    // 되도록이면 애노테이션 ToString이 아닌 직접 생성을 추천
-    public String toString() { 
+    public String toString() {
         return "Role{" +
                 "roleId=" + roleId +
                 ", name='" + name + '\'' +
