@@ -25,7 +25,6 @@
   - Naver MAP API
 - Server
   - AWS (EC2, RDS)
-  
 
 홈페이지 :
 
@@ -313,3 +312,317 @@ EC2 사용에도 어려움이 많았지만, 여러 EC2 기술 자료들을 공�
 아직 수정해야 할 부분도 많고 프로젝트를 계획했을 시에 구상했던 기능들 (검색, 공감하기 등) 이 모두 완성된 것은 아니지만, 표면적인 이용에는 문제가 없을 정도의 구현은 끝냈다고 생각하기 때문에 이번 프로젝트는 여기서 잠시 쉬어가도록 하겠습니다.
 
 이제는 프로젝트를 진행하며 느꼈던 부족한 점들 서버와의 통신 방법, 네트워크, JPA 등을 제대로 공부해 보는 시간을 갖도록 하겠습니다.
+
+2023-01-13
+
+프로젝트 대대적인 수정작업 진행중
+
+ㄴ 리뷰가 아닌 포트폴리오로 최종 진행
+
+------
+
+# 프로젝트 re:review
+
+## Repsitory 수정?
+
+- 현재는 JpaMapRepository가 MapRepository를 상속 (implements) 하는 형태로 코드를 작성하였지만, MapRepository가 JpaRpository를 상속 (extends) 하는 형태로 코드를 짜는 편이 좋지 않았을까 생각한다
+
+## `spring.jpa.hibernate.ddl-auto` 사용시 주의 사항
+
+- create 옵션은 기존의 테이블을 drop하고 새로 create하기 때문에 중요한 데이터를 날릴 수도 있다
+- update : 기존의 DB에 새로운 컬럼을 추가해야 하는 상황이 올 수 있는데, 이때 update를 사용하면 alter문이 실행돼서 db가 업데이트 되는 것은 맞지만, update 옵션 유지한 채로 다른 작업을 하다가 기존에 존재하던 컬럼이 삭제되는 경우도 있기 때문에 `운영`단에서는 절대 사용하지 말것
+
+## @NoArgsConstructor, @RequiredArgsConstructor, @AllArgsConstructor
+
+- @NoArgsConstructor = 파라미터가 없는 기본 생성자를 만들어 준다
+
+  - 즉, @NoArgsConstructor가 붙어있는 객체의 인스턴스를 만들 때, 아래처럼 argument를 하나도 넘기지 않아도 생성자를 호출할 수 있다
+
+  ```java
+  @NoArgsConstructor
+  public class Customer {
+  		private Long id;
+  		private String name;
+  		private int age;
+  }
+  Customer cus = new Customer();
+  ```
+
+  하지만, 만약 항상 초기화가 필요한 `final`이 붙은 field가 있는데 @NoArgsConstructor를 사용한다면 Compile Error가 발생할 것이다.
+
+  대신, @NoArgsConstructor(force=true)처럼 force라는 옵션에 true 값을 주면, 모든 final fields는 `0 / false / null` 로 초기화된다
+
+  그런데, field에 final이 아닌 @NonNull 같은 제약이 있는 애노테이션이 붙어있다면, force = true를 주어도 생성자에 들어가지 않기 때문에 나중에 프로그래머가 할당해 주어야 한다
+
+  hibernate나 Service Provider Interface 같은 특정 Java 구성에서 필요로 하고, 주로 @Data나 애노테이션을 생성하는 생성자 등과 함께 사용된다
+
+- @RequiredArgsConstructor = 특별한 처리가 필요한 field 마다 하나의 parameter를 갖는 생성자를 생성해 준다
+
+  - 초기화되지 않은 모든 final fields와, 선언될 때 초기화지 않은 @NonNull로 표시된 filed까지 parameter를 가진다
+  - 특히 @NonNull이 달려있는 field 의 경우, 생성되는 생성자 내부에서 명시적인 null 체크 로직 또한 생성된다
+  - 그래서 만약 @Nonnull이 붙어 있는 field 중 어떠한 것이라도 null 값을 포함한다면 NullPointerException이 발생하게 된다
+  - 생성자의 Parameter의 순서는 클래스 내부에서 선언된 filed의 순서로 매칭 된다
+
+  ```java
+  @RequiredArgsConstructor
+  public class Customer {
+      private final Long id;
+      private String name;
+      private int age;
+  }
+  
+  Customer customer = new Customer(3L);
+  ```
+
+- @AllArgsConstructor = 클래스 내부에 선언된 모든 filed 마다 하나의 parameter를 가진 생성자를 생성한다
+
+  - @NonNull이 붙어 있는 field의 경우, 역시나 생성되는 생성자 내부에 해당 parameter에 null check 로직이 생성된다
+  - @RequiredArgsConstructor와 마찬가지로, 생성자의 parameter의 순서는 내부 클래스에 선언된 filed의 순서로 매칭 된다
+
+  ```java
+  @AllArgsConstructor
+  public class Customer {
+      private final Long id;
+      private String name;
+      private int age;
+  }
+  
+  Customer customer = new Customer(2L, "김철수", 23);
+  ```
+
+- **`주의사항 및 단점`**
+
+  - @RequiredArgsConstructor, @AllArgsConstructor 는 심각한 버그를 발생할 수 있어서 사용 시에 주의하거나, 아예 사용을 권하지 않는 경우도 있다
+
+  ```java
+  @AllArgsConstructor
+  public class Order {
+      private int cancelAmount;
+      private int orderAmount;
+  }
+  
+  // 취소수량 4개, 주문수량 5개
+  Order order = new Order(4, 5);
+  ```
+
+  위에서 언급했던 것처럼 @AllArgsConstructor 는 생성자를 생성할 때, class 내부에 선언된 field의 순서로 생성자 파라미터를 생성한다.
+
+  그런데 만약 프로그래머가 선언된 순서를 임의로 바꾸게 된다면? 이 경우 ,**IDE가 제공해주는 리팩토링은 작동하지 않게 되고, Lombok도 변화를 알아채지 못한다.** 그렇기에 필드의 순서가 변경되어도 `Order order = new Order(4, 5)`는 에러없이 잘 작동하지만, 실제로 입력되는 값은 취소수량과 주문수량이 뒤바뀌어 들어가는 심각한 비즈니스 로직 에러를 발생시킨다
+
+  그렇기에 IDE 자동 생성 기능 등으로 생성자를 직접 만들거나, 생성자에 `@Builder` 애노테이션을 붙이는 것을 권장하기도 한다
+
+  ```java
+  public class Order {
+      private int cancelAmount;
+      private int orderAmount;
+      
+      @Builder
+      private Order(int cancelAmount, int orderAmount) {
+          this.cancelAmount = cancelAmount;
+          this.orderAmount = orderAmount;
+      }
+  }
+  
+  // field 순서를 변경해도 에러가 없다.
+  Order order = Order.builder().orderAmount(5).cancelAmount(4).build();
+  ```
+
+## @RestController (출처 : https://dncjf64.tistory.com/288, https://milkye.tistory.com/283)
+
+### **1.개요**
+
+Spring MVC의 @RestController은 @Controller와 @ResponseBody의 조합입니다.
+
+Spring 프레임 워크에서 RESTful 웹 서비스를 보다 쉽게 개발할 수 있도록 Spring 4.0에서 추가되었습니다.
+
+근본적인 차이점은 @Controller의 역할은 Model 객체를 만들어 데이터를 담고 View를 찾는 것이지만, @RestController는 단순히 객체만을 반환하고 객체 데이터는 JSON 또는 XML 형식으로 HTTP 응답에 담아서 전송합니다. 물론 @Controller와 @ResponseBody를 사용하여 만들 수 있지만 이러한 방식은 RESTful 웹서비스의 기본 동작이기 때문에 Spring은 @Controller와 @ResponseBody의 동작을 조합한 @RestController을 도입했습니다.
+
+다음 두 코드는 Spring MVC에서 동일한 동작을 합니다.
+
+```java
+@Controller
+@ResponseBody
+public class MVCController{
+	logic...
+}
+
+@RestController
+public class ReftFulController{
+	logic...
+}
+```
+
+### **2. Spring에서 @Controller와 @RestController은 무엇인가?**
+
+@Controller은 뷰에 표시될 데이터가 있는 Model 객체를 만들고 올바른 뷰를 선택하는 일을 담당합니다. 또한, @ResponseBody를 사용하여 HTTP Response Body에 데이터를 담아 요청을 완료할 수 있습니다.
+
+HTTP Response Body에 데이터를 담는 것은 RESTful 웹 서비스에 대한 응답에 매우 유용합니다. 왜냐하면 뷰를 반환하는 대신 데이터를 반환하기 때문입니다.
+
+Spring4 이전에 RESTful 웹 서비스를 개발했다면 @Controller와 @ResponseBody의 조합 사용에 익숙했을 것입니다. 하지만 @RestController을 사용하여 동일한 기능을 제공할 수 있습니다. 요컨대 @Controller와 @ResponsBody의 동작을 하나로 결합한 편의 컨트롤러라 보시면 됩니다.
+
+> 일반적인 Spring MVC 처리과정
+>
+> https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbXvA4D%2FbtqW4gE9bMH%2FTzOqxMdEnRXTAVqaLre5TK%2Fimg.png
+
+### 쉬운 예제
+
+RestController를 사용하면 어떠한 결과물이 나오는지 보도록 하자.
+
+```java
+@RestConroller
+public class Demo {
+	
+	@GetMapping("/test")
+	public String root() {
+			return "Hello_World";
+	}
+}
+```
+
+기본적으로 스프링에서 @Controller 애노테이션을 사용해 return Hello_World라고 한다면, 기본적으로 Hello_World.(jsp or html 등) 이 출력이 된다. 하지만 RestController를 사용한다면 다음과 같이 VIEW가 호출 되는 것이 아니라 return Data가 그대로 화면에 출력 된다.
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86ea71ff-c320-4a5f-973b-5cd034ce3be0/Untitled.png)
+
+### 전역 예외처리 (Global Exception Handling)
+
+- 사용 이유
+
+  - 프로젝트 내에서 게시판 구현을 JPA와 Rest API 기반의 비동기 방식으로 구현하기로 했다
+  - 즉, 페이지를 처리하는 Controller API를 처리하는 Controller를 따로 구성하게 된다
+  - API를 처리하는 RstController 전역에서 공통된 예외 처리를 적용하기 위함
+
+- @RestControllerAdvie
+
+  - 스프링은 예외 처리를 위해 @ControllerAdive 와 @ExceptionHandler 등의 기능을 지원해 준다
+  - @ControllerAdvie는 컨트롤러 전역에서 발생할 수 있는 예외를잡아 Throw 해주고, @ExceptionHandler는 특정 클래스에서 발생할 수 있는 예외를잡아 Thorw 해준다
+  - 일반적으로 @ExecptionHandler는 @ControllerAdive가 선언된 클래스에 포함된 메서드에 선언한다
+
+  > 예시
+  >
+  > ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bc17cf09-b690-4626-a8f6-036ae9a26a38/Untitled.png)
+
+  - 이번 프로젝트에서는 페이지에 대한 예외 처리는 의미가 없기 때문에 API 통신을 하는 Controller에만 적용하면 되어 @RestControllerAdive를 선언했다 (@RestController와 마찬가지로 @ResponseBody가 적용된 형태)
+
+  > **비동기 방식에 대한 에러를 지정한 이유?**
+  >
+  > **Enum class ErrorCode에서 AllArgsConstructor 사용 이유?**
+
+### Stream
+
+- 자바의 스트림은 컬렉션에 저장되어 있는 요소들을 하나씩 참조하여 람다식으로 처리할 수 있도록 해주는 코드패턴이다
+- 스트림은 람다식과 함께 사용하기 때문에 데이터에 대한 처리를 매우 간결하게 작성할 수 있다는 장점과 내부 반복자라는 것을 사용하기 때문에 병렬처리가 쉽다는 장점이 있다
+
+```java
+# 스트림 생성 - 컬렉션(list)
+ArrayList<String> list = new ArrayList<String(Arrays.asList("a","b","c","d","e"));
+Stream stream = list.stream();
+
+# - 배열
+Stringp[ arr = new String[] {"a","b","c","d","e"};
+Stream<String> Stream1 = Arrays.stream(arr);
+
+# map(): 요소들을 조건에 맞게 변환할 수 있다
+
+public static void main(String args[]){
+        List<String> list = new ArrayList<>();
+        list.add("apple");
+        list.add("ball");
+        list.add("car");
+        list.add("daddy");
+        list.add("ear");
+        list.add("fox");
+
+        // 요소들을 조건에 해당하는 값으로 변환 해준다.
+        // map
+
+        System.out.println("==========stream1=========");
+        Stream stream1 = list.stream().map(s -> s.toUpperCase()); // 반복문이 코드상에 노출X
+        stream1.forEach(System.out::println);
+
+        System.out.println("=========stream2==========");
+
+        Stream stream2 =list.stream().map(String::toUpperCase); // 반복문이 코드상에 노출X
+        stream2.forEach(System.out::println);
+
+        System.out.println("==========원본데이터=========");
+        // 원본 데이터는 변경되지 않는다.
+        // list.forEach(System.out::println);
+        list.forEach(s -> System.out.println(s)); // "System.out::println"와 동일 = 람다 표현식
+
+<결과>
+
+==========stream1=========
+APPLE
+BALL
+CAR
+DADDY
+EAR
+FOX
+=========stream2==========
+APPLE
+BALL
+CAR
+DADDY
+EAR
+FOX
+==========원본데이터=========
+apple
+ball
+car
+daddy
+ear
+fox
+
+# collect() : Stream 데이터를 원하는 자료형으로 변환 해준다.
+
+public static void main(String args[]){
+        List<String> list = new ArrayList<>(Arrays.asList("apple","ball","car","daddy","ear","fox"));
+
+        System.out.println("===============counting()===============");
+        Long count =  list.stream().filter(s -> s.length() > 3).collect(counting());
+        System.out.println("count - " + count);
+
+        System.out.println("================Collectors.toList==============");
+        List nList =  list.stream().filter(s -> s.length() > 3).collect(Collectors.toList());
+        System.out.println(nList);
+
+        System.out.println("================Collectors.joining==============");
+
+        // list의 아이템을 1개의 String으로 만들기 ( 구분자 "," )
+        String longStr =  list.stream().filter(s -> s.length() > 3).collect(Collectors.joining(","));
+        System.out.println(longStr);
+
+        System.out.println("===============Collectors.toMap===============");
+
+        Map map =  list.stream().filter(s -> s.length() > 3).collect(Collectors.toMap(s -> s, s-> s.length()));
+        map.forEach((a, b) -> {
+            System.out.println(a + " " + b);
+        });
+
+        System.out.println("===============toArray()===============");
+        Object[] obj  =  list.stream().filter(s -> s.length() > 3).toArray();
+        for (Object o : obj) {
+            System.out.println((String) o);
+        }
+    }
+ 
+
+<결과>
+
+===============counting()===============
+count - 3
+================Collectors.toList==============
+[apple, ball, daddy]
+================Collectors.joining==============
+apple,ball,daddy
+===============Collectors.toMap===============
+ball 4
+apple 5
+daddy 5
+===============toArray()===============
+apple
+ball
+daddy
+```
+
+d
