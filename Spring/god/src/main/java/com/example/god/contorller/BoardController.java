@@ -4,6 +4,10 @@ import com.example.god.domain.Board;
 import com.example.god.repository.BoardRepository;
 import com.example.god.validator.BoardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,8 +27,16 @@ public class BoardController {
     private BoardValidator boardValidator;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        List<Board> boards = boardRepository.findAll();
+    public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
+                       @RequestParam(required = false, defaultValue = "") String keyword) {
+//        Page<Board> boards = boardRepository.findAll(pageable);
+        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(keyword, keyword, pageable);
+
+        int startPage = 1;
+        int endPage = boards.getTotalPages();
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
         return "board/list";
     }
