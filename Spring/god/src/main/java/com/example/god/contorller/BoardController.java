@@ -60,7 +60,7 @@ public class BoardController {
     }
 
     @PostMapping("/form")
-    public String getSubmit(@Valid Board board, BindingResult bindingResult, Authentication authentication) {
+    public String write(@Valid Board board, BindingResult bindingResult, Authentication authentication) {
         boardValidator.validate(board, bindingResult);
 
         if (bindingResult.hasErrors()) {

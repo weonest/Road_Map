@@ -20,8 +20,15 @@ public class UserApiController {
     private UserRepository userRepository;
 
     @GetMapping("/users")
-    List<User> all() {
-        List<User> users = userRepository.findAll();
+    List<User> all(@RequestParam(required = false) String method, @RequestParam(required = false) String keyword) {
+        List<User> users = null;
+        if ("query".equals(method)) {
+            users = userRepository.findByUsernameQuery(keyword);
+        } else if ("nativeQuery".equals(method)) {
+            users = userRepository.findByUsernameNativeQuery(keyword);
+        } else {
+            users = userRepository.findAll();
+        }
         return users;
     }
 
