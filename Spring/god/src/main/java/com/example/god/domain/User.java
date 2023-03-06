@@ -1,6 +1,7 @@
 package com.example.god.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -27,4 +28,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Baord에서 ManyToOne에 사용된 Join조건을 그대로 사용하겠다
+    private List<Board> boards = new ArrayList<>();
+    
 }
