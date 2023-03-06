@@ -4,6 +4,7 @@ package com.example.god.contorller;
 import com.example.god.domain.Board;
 import com.example.god.domain.User;
 import com.example.god.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class UserApiController {
 
     @Autowired
@@ -19,7 +21,8 @@ public class UserApiController {
 
     @GetMapping("/users")
     List<User> all() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        return users;
     }
 
     @PostMapping("/users")

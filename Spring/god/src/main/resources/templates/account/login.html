@@ -17,9 +17,9 @@
 <body class="text-center">
 
 <form class="form-signin w-100 m-auto" th:action="@{/account/login}" method="post">
-    <a th:href="@{/}"><img class="mb-4" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72"
+    <a th:href="@{/}"><img class="mb-4" src="https://cdn-icons-png.flaticon.com/128/2977/2977402.png" alt="" width="72"
          height="57"></a>
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <h1 class="h3 mb-3 fw-normal">경기요 로그인</h1>
 
     <div th:if="${param.error}" class="alert alert-danger" role="alert">
         Invalid username and password.
@@ -45,9 +45,7 @@
     <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
     <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
 </form>
+<footer th:replace="fragment/common::footer"></footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous"></script>
 </body>
 </html>

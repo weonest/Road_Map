@@ -4,6 +4,7 @@ package com.example.god.contorller;
 import com.example.god.domain.Board;
 import com.example.god.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class BoardApiController {
+public class  BoardApiController {
 
     @Autowired
     private BoardRepository boardRepository;
@@ -51,7 +52,7 @@ public class BoardApiController {
                     return boardRepository.save(newBoard);
                 });
     }
-
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/boards/{id}")
     void deleteBoard(@PathVariable Long id) {
         boardRepository.deleteById(id);
