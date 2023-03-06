@@ -52,6 +52,7 @@ public class  BoardApiController {
                     return boardRepository.save(newBoard);
                 });
     }
+
     @Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_GUEST"})
     @DeleteMapping("/boards/{id}")
     void deleteBoard(@PathVariable Long id) {

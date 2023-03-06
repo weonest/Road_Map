@@ -46,25 +46,25 @@ public class BoardController {
         return "board/list";
     }
 
-    @GetMapping("/form")
-    public String form(Model model, @RequestParam(required = false) Long id) {
-
-        if (id == null) {
-            model.addAttribute("board", new Board());
-        } else {
+    @GetMapping("/view")
+    public String view(Model model, @RequestParam(required = false) Long id) {
             Board board = boardRepository.findById(id).orElse(null);
             model.addAttribute("board", board);
-        }
-
-        return "board/form";
+        return "board/view";
     }
 
-    @PostMapping("/form")
+    @GetMapping("/write")
+    public String write(Model model) {
+            model.addAttribute("board", new Board());
+        return "board/write";
+    }
+
+    @PostMapping("/write")
     public String write(@Valid Board board, BindingResult bindingResult, Authentication authentication) {
         boardValidator.validate(board, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "board/form";
+            return "board/write";
         }
 
         String username = authentication.getName();

@@ -1,0 +1,89 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment/common::head('Hello, Spring boot!')">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Custom styles for this template -->
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragment/common::menu('board')">
+
+
+</nav>
+
+<div class="container">
+    <form action="#" th:action="@{/board/form}" th:object="${board}" method="post">
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" class="form-control"
+                   th:classappend="${#fields.hasErrors('title')} ? 'is-invalid' : ''"
+                   id="title" th:field="*{title}">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}"
+                 th:errors="*{title}">
+                제목 에러 메시지
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="content" class="form-label">내용</label>
+            <textarea onchange="handleResizeHeight()" class="form-control"
+                      th:classappend="${#fields.hasErrors('content')} ? 'is-invalid' : ''"
+                      id="content" th:field="*{content}"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}"
+                 th:errors="*{content}">
+                내용 에러 메시지
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="form-label" sec:authorize="hasRole('ROLE_GUSET')">비밀번호</label>
+            <input type="password" class="form-control"
+                      th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                   id="password" th:field="*{password}" sec:authorize="hasRole('ROLE_GUSET')">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
+                 th:errors="*{password}">
+                암호 에러 메시지
+            </div>
+        </div>
+
+
+        <div class="text-end my-2">
+            <a class="btn btn-primary" th:href="@{/board/list}">뒤로</a>
+            <span th:if="${#authentication.name} == *{user.username} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+            <button type="button" class="btn btn-danger" th:onclick="|deleteBoard(*{id})|">삭제</button></span>
+            <button type="submit" class="btn btn-primary">확인</button>
+        </div>
+    </form>
+
+</div>
+
+</main><!-- /.container -->
+
+<script>
+    const textarea = useRef();
+
+    const handleResizeHeight = () => {
+        textarea.current.style.height = 'auto';
+        textarea.current.style.height = textarea.current.scrollHeight + 'px';
+    };
+
+    function deleteBoard(id) {
+        //DELETE /api/boards/{id}
+        if (!confirm(`게시글을 삭제하시겠습니까?`)) {
+            return false;
+        }
+        $.ajax({
+            url: '/api/boards/' + id,
+            type: 'DELETE',
+            success: function (result) {
+                console.log("result", result);
+                alert("삭제 완료");
+                window.location.href = '/board/list';
+            },
+        });
+    }
+
+</script>
+<footer th:replace="fragment/common::footer"></footer>
+</body>
+</html>
