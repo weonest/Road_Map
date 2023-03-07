@@ -1,7 +1,7 @@
 package com.example.god.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,6 +26,22 @@ public class Board {
     private String password;
     private LocalDateTime createdDate = LocalDateTime.now();
 
+    @Builder
+    public Board(String title, String content, User user) {
+        this.title = title;
+        this.content = content;
+        this.user = user;
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    //조회수 증가
+    public void increaseHits() {
+        this.hits++;
+    }
 
 
     @ManyToOne

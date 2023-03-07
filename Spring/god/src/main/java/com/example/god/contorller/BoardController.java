@@ -39,12 +39,10 @@ public class BoardController {
 
         int startPage = 1;
         int endPage = boards.getTotalPages();
-        Long pageSize = boards.getTotalElements();
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
-        model.addAttribute("pageSize", pageSize);
         return "board/list";
     }
 
