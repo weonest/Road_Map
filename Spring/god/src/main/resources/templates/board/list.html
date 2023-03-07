@@ -16,7 +16,7 @@
 <div class="container">
     <h2>게시판</h2>
 
-    <div>총 건수 : <span th:text="${boards.totalElements}"></span></div>
+<!--    <div>총 건수 : <span th:text="${boards.totalElements}"></span></div>-->
     <form class="form-inline d-flex justify-content-end d-flex align-items-center" method="get"
                 th:action="@{/board/list}">
         <div class="form-group mx-sm-3 mb-2">
@@ -32,14 +32,16 @@
             <th scope="col">번호</th>
             <th scope="col">제목</th>
             <th scope="col">작성자</th>
+            <th scope="col">등록일</th>
             <th scope="col">조회수</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="board : ${boards}">
-            <td th:text="${board.id}"></td>
-            <td><a th:text="${board.title}" th:href="@{/board/view(id=${board.id})}"></a></td>
+            <tr th:each="board, i: ${boards}">
+            <td th:text="${i.count}"></td>
+            <td><a th:text="${board.title}" th:href="@{|/board/view/${board.id}|}" th:onclick="view()"></a></td>
             <td th:text="${board.user.username}"></td>
+            <td th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
             <td th:text="${board.hits}"></td>
         </tr>
         </tbody>
@@ -63,6 +65,7 @@
 </div>
 
 </main><!-- /.container -->
+
 <footer th:replace="fragment/common::footer"></footer>
 </body>
 </html>

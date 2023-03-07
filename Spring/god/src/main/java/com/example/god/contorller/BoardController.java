@@ -39,15 +39,17 @@ public class BoardController {
 
         int startPage = 1;
         int endPage = boards.getTotalPages();
+        Long pageSize = boards.getTotalElements();
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
+        model.addAttribute("pageSize", pageSize);
         return "board/list";
     }
 
-    @GetMapping("/view")
-    public String view(Model model, @RequestParam(required = false) Long id) {
+    @GetMapping("/view/{id}")
+    public String view(Model model, @PathVariable final Long id) {
             Board board = boardRepository.findById(id).orElse(null);
             model.addAttribute("board", board);
         return "board/view";
@@ -55,7 +57,7 @@ public class BoardController {
 
     @GetMapping("/write")
     public String write(Model model) {
-            model.addAttribute("board", new Board());
+            model.addAttribute("board", new Board()); //객체 전달 시 Null임을 막기 위해 new 로 생성
         return "board/write";
     }
 
@@ -71,4 +73,5 @@ public class BoardController {
         boardService.save(username, board);
         return "redirect:/board/list"; // 다시 조회를 일으키며 불러온다
     }
+
 }

@@ -2,7 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragment/common::head('Hello, Spring boot!')">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- Custom styles for this template -->
 </head>
@@ -13,10 +13,10 @@
 </nav>
 
 <div class="container">
-    <form action="#" th:action="@{/board/form}" th:object="${board}" method="post">
+    <form action="#" th:action="@{/board/write}" th:object="${board}" method="post">
         <div class="form-group">
             <label for="title">제목</label>
-            <input type="text" class="form-control"
+            <input type="text" class="form-control" th:disabled="${#authentication.name} != *{user.username}"
                    th:classappend="${#fields.hasErrors('title')} ? 'is-invalid' : ''"
                    id="title" th:field="*{title}">
             <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}"
@@ -26,7 +26,8 @@
         </div>
         <div class="form-group">
             <label for="content" class="form-label">내용</label>
-            <textarea onchange="handleResizeHeight()" class="form-control"
+            <textarea style="overflow: hidden" onkeydown="resize(this)" class="form-control"
+                      th:disabled="${#authentication.name} != *{user.username}"
                       th:classappend="${#fields.hasErrors('content')} ? 'is-invalid' : ''"
                       id="content" th:field="*{content}"></textarea>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}"
@@ -36,10 +37,10 @@
         </div>
 
         <div class="form-group">
-            <label for="password" class="form-label" sec:authorize="hasRole('ROLE_GUSET')">비밀번호</label>
+            <label for="password" class="form-label" sec:authorize="hasRole('ROLE_GUEST')">비밀번호</label>
             <input type="password" class="form-control"
-                      th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
-                   id="password" th:field="*{password}" sec:authorize="hasRole('ROLE_GUSET')">
+                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                   id="password" th:field="*{password}" sec:authorize="hasRole('ROLE_GUEST')">
             <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
                  th:errors="*{password}">
                 암호 에러 메시지
@@ -50,8 +51,10 @@
         <div class="text-end my-2">
             <a class="btn btn-primary" th:href="@{/board/list}">뒤로</a>
             <span th:if="${#authentication.name} == *{user.username} or ${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-            <button type="button" class="btn btn-danger" th:onclick="|deleteBoard(*{id})|">삭제</button></span>
-            <button type="submit" class="btn btn-primary">확인</button>
+            <button type="button" class="btn btn-danger" th:onclick="|deleteBoard(*{id})|">삭제</button>
+                <button type="button" class="btn btn-warning" th:onclick="|update(*{id})|">수정</button>
+            </span>
+            <!--            <button type="submit" class="btn btn-primary">확인</button>-->
         </div>
     </form>
 
@@ -60,12 +63,10 @@
 </main><!-- /.container -->
 
 <script>
-    const textarea = useRef();
-
-    const handleResizeHeight = () => {
-        textarea.current.style.height = 'auto';
-        textarea.current.style.height = textarea.current.scrollHeight + 'px';
-    };
+    function resize(obj) {
+        obj.style.height = '1px';
+        obj.style.height = (12 + obj.scrollHeight) + 'px';
+    }
 
     function deleteBoard(id) {
         //DELETE /api/boards/{id}
@@ -75,9 +76,30 @@
         $.ajax({
             url: '/api/boards/' + id,
             type: 'DELETE',
+
             success: function (result) {
                 console.log("result", result);
                 alert("삭제 완료");
+                window.location.href = '/board/list';
+            },
+        });
+    }
+    function update(id) {
+        //PUT /api/boards/{id}
+
+        var data = {
+            "title": $("#title").val().trim(),
+            "content": $("#content").val().trim()
+        }
+        $.ajax({
+            url: '/api/boards/' + id,
+            type: 'PUT',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+
+            success: function (result) {
+                console.log("result", result);
+                alert("수정 완료");
                 window.location.href = '/board/list';
             },
         });

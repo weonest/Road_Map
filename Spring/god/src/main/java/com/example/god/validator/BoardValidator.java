@@ -20,6 +20,7 @@ public class BoardValidator implements Validator {
         if (StringUtils.isEmpty(b.getContent())) {
             errors.rejectValue("content", "key", "내용을 입력하세요");
         }
+//        if (StringUtils.)
 
     }
 }

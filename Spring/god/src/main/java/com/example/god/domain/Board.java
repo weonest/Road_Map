@@ -26,6 +26,8 @@ public class Board {
     private String password;
     private LocalDateTime createdDate = LocalDateTime.now();
 
+
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
