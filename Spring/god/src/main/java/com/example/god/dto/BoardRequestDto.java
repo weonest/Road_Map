@@ -3,12 +3,11 @@ package com.example.god.dto;
 
 import com.example.god.domain.Board;
 import com.example.god.domain.User;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class BoardRequestDto {
 
     private String title; // 제목
@@ -22,5 +21,6 @@ public class BoardRequestDto {
                 .user(user)
                 .build();
     }
+
 
 }

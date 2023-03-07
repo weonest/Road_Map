@@ -43,22 +43,22 @@ public class UserApiController {
         return userRepository.findById(id).orElse(null);
     }
 
-    @PutMapping("/users/{id}")
-    User replaceUser(@RequestBody User newUser, @PathVariable Long id) {
-
-        return userRepository.findById(id)
-                .map(user -> {
-                    user.setBoards(newUser.getBoards());
-                    for (Board board : user.getBoards()){
-                        board.setUser(user);
-                    }
-                    return userRepository.save(user);
-                })
-                .orElseGet(() -> {
-                    newUser.setId(id);
-                    return userRepository.save(newUser);
-                });
-    }
+//    @PutMapping("/users/{id}")
+//    User replaceUser(@RequestBody User newUser, @PathVariable Long id) {
+//
+//        return userRepository.findById(id)
+//                .map(user -> {
+//                    user.setBoards(newUser.getBoards());
+//                    for (Board board : user.getBoards()){
+//                        board.setUser(user);
+//                    }
+//                    return userRepository.save(user);
+//                })
+//                .orElseGet(() -> {
+//                    newUser.setId(id);
+//                    return userRepository.save(newUser);
+//                });
+//    }
 
     @DeleteMapping("/users/{id}")
     void deleteUser(@PathVariable Long id) {

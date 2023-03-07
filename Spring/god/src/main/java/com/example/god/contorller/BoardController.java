@@ -1,7 +1,10 @@
 package com.example.god.contorller;
 
 import com.example.god.domain.Board;
+import com.example.god.domain.User;
+import com.example.god.dto.BoardRequestDto;
 import com.example.god.repository.BoardRepository;
+import com.example.god.repository.UserRepository;
 import com.example.god.service.BoardService;
 import com.example.god.validator.BoardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class BoardController {
     private BoardRepository boardRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BoardService boardService;
 
     @Autowired
@@ -48,19 +54,22 @@ public class BoardController {
 
     @GetMapping("/view/{id}")
     public String view(Model model, @PathVariable final Long id) {
-            Board board = boardRepository.findById(id).orElse(null);
-            model.addAttribute("board", board);
+        Board board = boardRepository.findById(id).orElse(null);
+        model.addAttribute("board", board);
         return "board/view";
     }
 
     @GetMapping("/write")
-    public String write(Model model) {
-            model.addAttribute("board", new Board()); //객체 전달 시 Null임을 막기 위해 new 로 생성
+    public String write(Model model, BoardRequestDto board, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
+        model.addAttribute("board", board);
         return "board/write";
     }
 
     @PostMapping("/write")
-    public String write(@Valid Board board, BindingResult bindingResult, Authentication authentication) {
+    public String write(@ModelAttribute("board") BoardRequestDto board, BindingResult bindingResult, Authentication authentication) {
         boardValidator.validate(board, bindingResult);
 
         if (bindingResult.hasErrors()) {

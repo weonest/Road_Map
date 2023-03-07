@@ -1,6 +1,7 @@
 package com.example.god.validator;
 
 import com.example.god.domain.Board;
+import com.example.god.dto.BoardRequestDto;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -16,11 +17,14 @@ public class BoardValidator implements Validator {
     @Override
     public void validate(Object obj, Errors errors) {
 
-        Board b = (Board) obj;
+        BoardRequestDto b = (BoardRequestDto) obj;
+        if (StringUtils.isEmpty(b.getContent())) {
+            errors.rejectValue("title", "key", "제목을 입력하세요");
+        }
+
         if (StringUtils.isEmpty(b.getContent())) {
             errors.rejectValue("content", "key", "내용을 입력하세요");
         }
-//        if (StringUtils.)
 
     }
 }

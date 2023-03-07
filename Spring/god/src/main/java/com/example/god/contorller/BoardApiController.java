@@ -38,20 +38,20 @@ public class  BoardApiController {
         return boardRepository.findById(id).orElse(null);
     }
 
-    @PutMapping("/boards/{id}")
-    Board replaceBoard(@RequestBody Board newBoard, @PathVariable Long id) {
-
-        return boardRepository.findById(id)
-                .map(board -> {
-                    board.setTitle(newBoard.getTitle());
-                    board.setContent(newBoard.getContent());
-                    return boardRepository.save(board);
-                })
-                .orElseGet(() -> {
-                    newBoard.setId(id);
-                    return boardRepository.save(newBoard);
-                });
-    }
+//    @PutMapping("/boards/{id}")
+//    Board replaceBoard(@RequestBody Board newBoard, @PathVariable Long id) {
+//
+//        return boardRepository.findById(id)
+//                .map(board -> {
+//                    board.setTitle(newBoard.getTitle());
+//                    board.setContent(newBoard.getContent());
+//                    return boardRepository.save(board);
+//                })
+//                .orElseGet(() -> {
+//                    newBoard.setId(id);
+//                    return boardRepository.save(newBoard);
+//                });
+//    }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_GUEST"})
     @DeleteMapping("/boards/{id}")
