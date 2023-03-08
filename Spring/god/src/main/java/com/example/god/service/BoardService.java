@@ -35,4 +35,13 @@ public class BoardService {
         entity.update(param.getTitle(), param.getContent());
         return id;
     }
+
+    /**
+     * 게시글 삭제
+     */
+
+    @Transactional
+    public void delete(Long id) {
+        boardRepository.deleteById(id);
+    }
 }

@@ -69,6 +69,7 @@ public class BoardController {
      */
     @GetMapping("/write")
     public String write(Model model, BoardRequestDto param, Authentication authentication) {
+
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
@@ -80,7 +81,9 @@ public class BoardController {
      * 글 작성
      */
     @PostMapping("/write")
-    public String write(Model model, @ModelAttribute("board") BoardRequestDto board, BindingResult bindingResult, Authentication authentication) {
+    public String write(Model model, @ModelAttribute("board") @Valid BoardRequestDto board,
+                        BindingResult bindingResult, Authentication authentication) {
+
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);

@@ -30,9 +30,8 @@ public class Board {
     private String password;
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private User user;
 
     @Builder
