@@ -30,6 +30,11 @@ public class Board {
     private String password;
     private LocalDateTime createdDate = LocalDateTime.now();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
     @Builder
     public Board(String title, String content, User user) {
         this.title = title;
@@ -48,8 +53,4 @@ public class Board {
     }
 
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;
 }

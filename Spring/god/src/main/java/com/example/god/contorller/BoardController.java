@@ -37,10 +37,12 @@ public class BoardController {
     @Autowired
     private BoardValidator boardValidator;
 
+    /**
+     * 게시글 리스트
+     */
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String keyword) {
-//        Page<Board> boards = boardRepository.findAll(pageable);
         Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(keyword, keyword, pageable);
 
         int startPage = 1;
@@ -52,6 +54,9 @@ public class BoardController {
         return "board/list";
     }
 
+    /**
+     * 상세 보기
+     */
     @GetMapping("/view/{id}")
     public String view(Model model, @PathVariable final Long id) {
         Board board = boardRepository.findById(id).orElse(null);
@@ -59,25 +64,34 @@ public class BoardController {
         return "board/view";
     }
 
+    /**
+     * 글 작성 불러오기
+     */
     @GetMapping("/write")
-    public String write(Model model, BoardRequestDto board, Authentication authentication) {
+    public String write(Model model, BoardRequestDto param, Authentication authentication) {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
-        model.addAttribute("board", board);
+        model.addAttribute("board", param);
         return "board/write";
     }
 
+    /**
+     * 글 작성
+     */
     @PostMapping("/write")
-    public String write(@ModelAttribute("board") BoardRequestDto board, BindingResult bindingResult, Authentication authentication) {
+    public String write(Model model, @ModelAttribute("board") BoardRequestDto board, BindingResult bindingResult, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+        model.addAttribute("user", user);
+
         boardValidator.validate(board, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "board/write";
+            return "/board/write";
         }
 
-        String username = authentication.getName();
-        boardService.save(username, board);
+        boardService.save(board);
         return "redirect:/board/list"; // 다시 조회를 일으키며 불러온다
     }
 

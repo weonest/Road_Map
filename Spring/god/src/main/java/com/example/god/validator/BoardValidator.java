@@ -18,10 +18,9 @@ public class BoardValidator implements Validator {
     public void validate(Object obj, Errors errors) {
 
         BoardRequestDto b = (BoardRequestDto) obj;
-        if (StringUtils.isEmpty(b.getContent())) {
-            errors.rejectValue("title", "key", "제목을 입력하세요");
+        if (StringUtils.isEmpty(b.getTitle()) || StringUtils.length(b.getTitle()) <= 2) {
+            errors.rejectValue("title", "key", "제목은 2자 이상 30자 이하입니다");
         }
-
         if (StringUtils.isEmpty(b.getContent())) {
             errors.rejectValue("content", "key", "내용을 입력하세요");
         }

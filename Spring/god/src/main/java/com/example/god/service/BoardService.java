@@ -8,23 +8,31 @@ import com.example.god.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
-    public Long save(String username, BoardRequestDto board) {
-
-        User user = userRepository.findByUsername(username);
-        Board entity = boardRepository.save(board.toEntity());
+    /**
+     * 게시글 생성
+     */
+    @Transactional
+    public Long save(BoardRequestDto param) {
+        Board entity = boardRepository.save(param.toEntity());
         return entity.getId();
-//        Board entity = boardRepository.save(board.toEntity());
+    }
 
-//        board.setUser(user);
-//        return boardRepository.save(board);
+    /**
+     * 게시글 수정
+     */
+    @Transactional
+    public Long update(Long id, BoardRequestDto param) {
+        Board entity = boardRepository.findById(id).orElse(null);
+        entity.update(param.getTitle(), param.getContent());
+        return id;
     }
 }

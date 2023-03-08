@@ -2,9 +2,12 @@ package com.example.god.contorller;
 
 
 import com.example.god.domain.Board;
+import com.example.god.dto.BoardRequestDto;
 import com.example.god.repository.BoardRepository;
+import com.example.god.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
@@ -17,42 +20,26 @@ public class  BoardApiController {
     @Autowired
     private BoardRepository boardRepository;
 
-    @GetMapping("/boards")
-    List<Board> all(@RequestParam(required = false) String title, @RequestParam(required = false, defaultValue = "") String content) {
+    @Autowired
+    private BoardService boardService;
 
-        if (StringUtils.isEmpty(title) && StringUtils.isEmpty(content)) {
-            return boardRepository.findAll();
-        } else {
-            return boardRepository.findByTitleOrContent(title, content);
-        }
+
+
+
+    /**
+     * 게시글 수정
+     */
+    @PatchMapping("/boards/{id}")
+    public Long update (@RequestBody BoardRequestDto param, @PathVariable Long id, BindingResult bindingResult) {
+
+
+        return boardService.update(id, param);
     }
-
-    @PostMapping("/boards")
-    Board newBoard(@RequestBody Board board) {
-        return boardRepository.save(board);
-    }
-
-
-    @GetMapping("/boards/{id}")
-    Board one(@PathVariable Long id) {
-        return boardRepository.findById(id).orElse(null);
-    }
-
-//    @PutMapping("/boards/{id}")
-//    Board replaceBoard(@RequestBody Board newBoard, @PathVariable Long id) {
 //
-//        return boardRepository.findById(id)
-//                .map(board -> {
-//                    board.setTitle(newBoard.getTitle());
-//                    board.setContent(newBoard.getContent());
-//                    return boardRepository.save(board);
-//                })
-//                .orElseGet(() -> {
-//                    newBoard.setId(id);
-//                    return boardRepository.save(newBoard);
-//                });
-//    }
 
+    /**
+     * 게시글 삭제
+     */
     @Secured({"ROLE_ADMIN", "ROLE_USER", "ROLE_GUEST"})
     @DeleteMapping("/boards/{id}")
     void deleteBoard(@PathVariable Long id) {
