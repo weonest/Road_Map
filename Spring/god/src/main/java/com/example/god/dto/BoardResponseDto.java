@@ -1,6 +1,7 @@
 package com.example.god.dto;
 
 import com.example.god.domain.Board;
+import com.example.god.domain.User;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class BoardResponseDto {
     private int hits; // 조회 수
     private String password;
     private LocalDateTime createdDate; // 수정일
+    private User user;
 
     public BoardResponseDto(Board entity) {
         this.id = entity.getId();
@@ -22,5 +24,6 @@ public class BoardResponseDto {
         this.hits = entity.getHits();
         this.password = entity.getPassword();
         this.createdDate = entity.getCreatedDate();
+        this.user = entity.getUser();
     }
 }

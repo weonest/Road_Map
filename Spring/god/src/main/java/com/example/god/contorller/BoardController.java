@@ -3,6 +3,7 @@ package com.example.god.contorller;
 import com.example.god.domain.Board;
 import com.example.god.domain.User;
 import com.example.god.dto.BoardRequestDto;
+import com.example.god.dto.BoardResponseDto;
 import com.example.god.repository.BoardRepository;
 import com.example.god.repository.UserRepository;
 import com.example.god.service.BoardService;
@@ -25,8 +26,6 @@ import java.util.List;
 @RequestMapping("/board")
 public class BoardController {
 
-    @Autowired
-    private BoardRepository boardRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -34,8 +33,6 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    @Autowired
-    private BoardValidator boardValidator;
 
     /**
      * 게시글 리스트
@@ -43,7 +40,7 @@ public class BoardController {
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(size = 10) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String keyword) {
-        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(keyword, keyword, pageable);
+        Page<BoardResponseDto> boards = boardService.findAll(keyword, keyword, pageable);
 
         int startPage = 1;
         int endPage = boards.getTotalPages();
@@ -59,7 +56,7 @@ public class BoardController {
      */
     @GetMapping("/view/{id}")
     public String view(Model model, @PathVariable final Long id) {
-        Board board = boardRepository.findById(id).orElse(null);
+        BoardResponseDto board = boardService.findById(id);
         model.addAttribute("board", board);
         return "board/view";
     }
@@ -88,7 +85,7 @@ public class BoardController {
         User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
 
-        boardValidator.validate(board, bindingResult);
+        boardService.validate(board, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "/board/write";

@@ -24,7 +24,6 @@ public class UserService {
         Role role = new Role();
         role.setId(1L);
         user.getRoles().add(role);
-
         return userRepository.save(user);
     }
 

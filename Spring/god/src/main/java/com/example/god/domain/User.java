@@ -21,8 +21,7 @@ public class User {
     private String password;
     private Boolean enabled;
 
-    @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -32,7 +31,6 @@ public class User {
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Baord에서 ManyToOne에 사용된 Join조건을 그대로 사용하겠다
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<Board> boards = new ArrayList<>();
     
 }
