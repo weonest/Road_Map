@@ -1,10 +1,8 @@
-package com.example.god.contorller;
+package com.example.god.controller;
 
 
 import com.example.god.dto.BoardRequestDto;
-import com.example.god.repository.BoardRepository;
 import com.example.god.service.BoardService;
-import com.example.god.validator.BoardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;

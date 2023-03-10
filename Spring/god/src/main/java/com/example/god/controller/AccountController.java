@@ -1,7 +1,6 @@
-package com.example.god.contorller;
+package com.example.god.controller;
 
 import com.example.god.domain.User;
-import com.example.god.repository.UserRepository;
 import com.example.god.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

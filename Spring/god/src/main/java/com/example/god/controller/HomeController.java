@@ -1,4 +1,4 @@
-package com.example.god.contorller;
+package com.example.god.controller;
 
 
 import org.springframework.stereotype.Controller;

@@ -1,16 +1,12 @@
-package com.example.god.contorller;
+package com.example.god.controller;
 
-import com.example.god.domain.Board;
 import com.example.god.domain.User;
 import com.example.god.dto.BoardRequestDto;
 import com.example.god.dto.BoardResponseDto;
-import com.example.god.repository.BoardRepository;
 import com.example.god.repository.UserRepository;
 import com.example.god.service.BoardService;
-import com.example.god.validator.BoardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
@@ -20,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/board")

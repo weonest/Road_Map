@@ -33,7 +33,7 @@ public class WebSecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/account/register","/static/css/**", "/api/**").permitAll()
+                    .antMatchers("/", "/account/register","/css/**", "/api/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
