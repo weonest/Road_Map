@@ -460,3 +460,27 @@ https://okky.kr/articles/1330484
 2. Controller는 Service를 호출하여 StoreSaveRequestDto와 UserRequestDto를 넘겨줌 (Session에서 유저 정보를 불러온 것)
 3. Service에서 UserRequestDto를 이용하여 UserRepository에서 User 엔티티를 가져와서 StoreSaveRequestDto에 값을 채워줌
 4. StoreSaveRequestDto를 Entity로 변환하고 저장
+
+### 페이징 로직
+
+https://devlog-wjdrbs96.tistory.com/414
+
+```
+BoardResponseDto board = boardService.findById*(*id*)*;
+```
+
+### 타임리프 엔진 에러
+
+https://dev-jwblog.tistory.com/40
+
+### ManyToMany 사용 자제
+
+https://mythpoy.tistory.com/2
+
+https://letsmakemyselfprogrammer.tistory.com/73
+
+https://learnote-dev.com/java/Spring-다대다-관계-맵핑/
+
+### Valid, Validated
+
+https://velog.io/@lsj8367/Valid-Validated-차이
