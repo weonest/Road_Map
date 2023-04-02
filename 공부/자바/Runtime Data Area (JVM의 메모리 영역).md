@@ -18,7 +18,7 @@ https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://blog.kakao
 
 Java 프로그램을 실행하기 위해서는 클래스파일을 저장/실행하기 위해 컴퓨터 내부 메모리 공간이 필요하다. 이것을 담당하는 것이 JVM의 Runtime Data Area이다. 이것은 5개의 영역으로 나누어진다.
 
-### 1. 메서드 영역
+### 1. 메서드 영역 (= class area)
 
 > 모든 클래스 레벨의 데이터가 저장된다
 
@@ -76,7 +76,7 @@ new 연산자를 이용해서 생성하면 데이터는 **Heap 영역**에 저�
 - Operand Stack : 메소드 내부의 모든 연산자
 - Frame Data : 예외처리를 위한 try/catch 블록
 
-스택 메모리 영역은 메소드 내에서 정의하는 기본 자료형 (int, double, type, long, boolean 등)에 해당되는 지역변수(매개 변수 및 블럭문 내 변수 포함)의 데이터 값이 저장되는 공간이 Stack 영역이다. 해당 메서드가 호출될 때 메모리에 할당되고 종료되면 메모리가 해제된다.
+스택 메모리 영역은 **메소드 내에서 정의하는 기본 자료형 (int, double, type, long, boolean 등)에 해당되는 지역변수(매개 변수 및 블럭문 내 변수 포함)의 데이터 값이 저장되는 공간**이 Stack 영역이다. 해당 메서드가 호출될 때 메모리에 할당되고 종료되면 메모리가 해제된다.
 
 ```java
 public class StackAreaEx {
